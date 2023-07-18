@@ -43,7 +43,7 @@ public class MenuController {
 
     //가게 메뉴판 수정
     @PutMapping("/menu/{menu_id}")
-    public ResponseEntity<MsgResponseDto> updateMenu(long menu_id, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody MenuRequestDto requestDto) {
+    public ResponseEntity<MsgResponseDto> updateMenu(@PathVariable Long menu_id, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody MenuRequestDto requestDto) {
         try {
             menuService.updateMenu(menu_id, requestDto, userDetails.getUser());
             return ResponseEntity.ok().body(new MsgResponseDto("메뉴판 수정 성공.", HttpStatus.OK.value()));
@@ -54,7 +54,7 @@ public class MenuController {
 
     //가게 메뉴판 삭제
     @DeleteMapping("/menu/{menu_id}")
-    public ResponseEntity<MsgResponseDto> deleteMenu(long menu_id, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody MenuRequestDto requestDto) {
+    public ResponseEntity<MsgResponseDto> deleteMenu(@PathVariable Long menu_id, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody MenuRequestDto requestDto) {
         try {
             menuService.deleteMenu(menu_id, userDetails.getUser());
             return ResponseEntity.ok().body(new MsgResponseDto("메뉴판 삭제 성공.", HttpStatus.OK.value()));
