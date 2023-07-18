@@ -16,7 +16,7 @@ import lombok.Setter;
 public class User {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY);
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // 유저 이름
@@ -28,11 +28,11 @@ public class User {
     private String userPassword;
 
     // 유저 닉네임
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String userNick;
 
     // 유저 이메일
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String userEmail;
 
     // 유저 자기소개
@@ -47,7 +47,7 @@ public class User {
     }
 
     public void updateProfile(ProfileUpdateDto profileUpdateDto) {
-        this.userName = profileUpdateDto.getUserName();
+        this.userEmail = profileUpdateDto.getUserEmail();
         this.userPassword = profileUpdateDto.getUserPassword();
         this.userNick = profileUpdateDto.getUserNick();
         this.myContent = profileUpdateDto.getMyContent();

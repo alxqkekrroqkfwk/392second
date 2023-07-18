@@ -8,13 +8,13 @@ import lombok.Setter;
 @Setter
 
 public class ProfileUpdateDto {
-    private String userName;
+    private String userEmail;
     private String userPassword;
     private String userNick;
     private String myContent;
 
     public ProfileUpdateDto(User user) {
-        this.userName = user.getUserName();
+        this.userEmail = user.getUserEmail();
         this.userPassword = user.getUserPassword();
         this.userNick = user.getUserNick();
         this.myContent = user.getMyContent();
