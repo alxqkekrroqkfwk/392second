@@ -1,9 +1,8 @@
 package com.sparta.second.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.second.requestDto.UserRequestDto;
+import com.sparta.second.dto.UserRequestDto;
 import com.sparta.second.security.UserDetailsImpl;
-import io.jsonwebtoken.Jwt;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
