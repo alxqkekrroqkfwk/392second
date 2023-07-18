@@ -38,9 +38,10 @@ public class User {
     @Column
     private URL myImage;
 
-    public User(String userName, String userPassword, String userEmail){
+    public User(String userName, String userPassword, String userEmail,String getUserNick){
         this.userName = userName;
         this.userPassword =userPassword;
         this.userEmail = userEmail;
+        this.getUserNick = getUserNick;
     }
 }

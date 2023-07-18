@@ -19,12 +19,13 @@ public class UserService {
         String username = requestDto.getUserName();
         String password = passwordEncoder.encode(requestDto.getUserPassword());
         String email = requestDto.getUserEmail();
+        String Nick = requestDto.getUserNick();
 
         if(userRepository.findByUserName(username).isPresent()){
             throw new IllegalArgumentException("중복된 이름입니다.");
         }
 
-        User user = new User(username, password,email);
+        User user = new User(username, password,email, Nick);
         userRepository.save(user);
     }
 }
