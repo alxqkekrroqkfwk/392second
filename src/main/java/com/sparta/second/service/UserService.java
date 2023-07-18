@@ -2,7 +2,7 @@ package com.sparta.second.service;
 
 import com.sparta.second.entity.User;
 import com.sparta.second.repository.UserRepository;
-import com.sparta.second.requestDto.signupRequestDto;
+import com.sparta.second.dto.signupRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.sparta.second.controller;
 
-import com.sparta.second.requestDto.MsgResponseDto;
-import com.sparta.second.requestDto.signupRequestDto;
+import com.sparta.second.dto.MsgResponseDto;
+import com.sparta.second.dto.signupRequestDto;
 import com.sparta.second.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

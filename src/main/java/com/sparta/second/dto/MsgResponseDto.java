@@ -1,9 +1,8 @@
-package com.sparta.second.requestDto;
+package com.sparta.second.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 // 메세지와 코드 반환용

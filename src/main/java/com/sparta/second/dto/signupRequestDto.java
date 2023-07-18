@@ -1,4 +1,4 @@
-package com.sparta.second.requestDto;
+package com.sparta.second.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -18,12 +18,6 @@ public class signupRequestDto {
     @NotBlank
     @Email
     private String userEmail;
-
-
-
-
-
-
 
 }
 
