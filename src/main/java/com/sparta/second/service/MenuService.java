@@ -36,17 +36,16 @@ public class MenuService {
 
     // 메뉴 생성
     @Transactional
-    public void createMenu(MenuRequestDto menurequestDto) {
-        menuRepository.save(new Menu(menurequestDto));
+    public void createMenu(MenuRequestDto menurequestDto, User user) {
+        menuRepository.save(new Menu(menurequestDto, user));
     }
 
     //메뉴 삭제
     @Transactional
     public void deleteMenu(Long menu_id, User user) {
-        String id = findMenu(menu_id).getUser().getUserName();
         Menu menu = findMenu(menu_id);
 
-        if (!(id.equals(user.getUserName()))) {
+        if (!(menu.getUser().equals(user))) {
             throw new RejectedExecutionException();
         } else {
             menuRepository.delete(menu);
@@ -56,10 +55,9 @@ public class MenuService {
     // 메뉴 수정
     @Transactional
     public MenuResponseDto updateMenu(Long menu_id, MenuRequestDto menurequestDto, User user) {
-        String id = findMenu(menu_id).getUser().getUserName();
         Menu menu = findMenu(menu_id);
 
-        if (!(id.equals(user.getUserName()))) {
+        if (!(menu.getUser().equals(user))) {
             throw new RejectedExecutionException();
         }
         menu.setMenuCategory(menurequestDto.getMenuCategory());
