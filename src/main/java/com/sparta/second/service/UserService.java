@@ -1,10 +1,7 @@
 package com.sparta.second.service;
 
 
-import com.sparta.second.dto.LoginRequestDto;
-import com.sparta.second.dto.PasswordRequestDto;
-import com.sparta.second.dto.ProfileUpdateDto;
-import com.sparta.second.dto.SignupRequestDto;
+import com.sparta.second.dto.*;
 import com.sparta.second.entity.User;
 import com.sparta.second.jwt.JwtUtil;
 import com.sparta.second.repository.UserRepository;
@@ -31,12 +28,13 @@ public class UserService {
         String password = passwordEncoder.encode(requestDto.getUserPassword());
         String email = requestDto.getUserEmail();
         String Nick = requestDto.getUserNick();
+        UserRoleEnum role = requestDto.getRole();
 
         if(userRepository.findByUserName(username).isPresent()){
             throw new IllegalArgumentException("중복된 이름입니다.");
         }
 
-        User user = new User(username, password,email, Nick);
+        User user = new User(username, password,email, Nick, role);
         userRepository.save(user);
     }
 
