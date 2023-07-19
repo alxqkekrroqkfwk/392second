@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
 @RestController
@@ -23,7 +22,7 @@ public class ShopController {
     private final ShopService shopService;
 
     // 가게 조회
-    @GetMapping("/shop")
+    @GetMapping("/shops")
     public ResponseEntity<ShopListResponseDto> getShops() {
         ShopListResponseDto shopListResponseDto = shopService.getShops();
         return ResponseEntity.ok().body(shopListResponseDto);
@@ -37,9 +36,9 @@ public class ShopController {
 
 
     @PostMapping("/shop")
-    public ShopResponseDto createShop(@RequestBody ShopRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return shopService.createShop(requestDto,userDetails.getUser());
-
+    public ResponseEntity<MsgResponseDto> createShop(@RequestBody ShopRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        shopService.createShop(requestDto,userDetails.getUser());
+        return ResponseEntity.ok().body(new MsgResponseDto("가게 생성 완료 !",HttpStatus.OK.value()));
     }
 
 

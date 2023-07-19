@@ -11,5 +11,4 @@ public class ShopRequestDto {
     private String shopName;
     private String shopContent;
     private String userName;
-
 }

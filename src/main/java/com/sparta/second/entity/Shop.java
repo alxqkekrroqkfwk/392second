@@ -13,7 +13,7 @@ import lombok.Setter;
 @Table(name = "shop")
 @NoArgsConstructor
 
-public class Shop {
+public class Shop extends TimeStamped{
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -26,7 +26,7 @@ public class Shop {
     private String shopContent;
 
     @Column(name = "userName")
-    @Email
+//    @Email
     private String userName;
 
     /*@JoinColumn(name = "user")

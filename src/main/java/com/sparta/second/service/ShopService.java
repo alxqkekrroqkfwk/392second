@@ -37,9 +37,8 @@ public class ShopService {
     }
 
     @Transactional
-    public ShopResponseDto createShop(ShopRequestDto requestDto, User user) {
+    public void createShop(ShopRequestDto requestDto, User user) {
         Shop shop = shopRepository.save(new Shop(requestDto, user));
-        return new ShopResponseDto(shop);
     }
 
     // id 값 수정(username), 유효성 검사 수정
