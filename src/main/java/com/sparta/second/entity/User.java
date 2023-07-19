@@ -37,4 +37,8 @@ public class User {
 
     @Column
     private URL myImage;
+
+//    @Column
+//    @OneToMany
+//    private Review review;
 }
