@@ -36,10 +36,11 @@ public class Menu extends TimeStamped{
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    public Menu(MenuRequestDto requestDto){
+    public Menu(MenuRequestDto requestDto,Shop shop){
         this.menuTitle = requestDto.getMenuTitle();
         this.menuCategory = requestDto.getMenuCategory();
         this.menuContent = requestDto.getContent();
         this.menuImage = requestDto.getMenuImage();
+        this.shop = shop;
     }
 }
