@@ -20,9 +20,9 @@ public class Review extends TimeStamped {
     @Id
     @Column
     private Long reviewId;
-    @Column
-    @ManyToOne
-    private User user;
+//    @Column
+//    @ManyToOne
+//    private User user;
 //    private Shop shop;
     @Column
     private String content;
@@ -30,7 +30,7 @@ public class Review extends TimeStamped {
     private URL ImageUrl;
 
     public Review(User user , ReviewRequestDto reviewRequestDto) {
-        this.user = user;
+//        this.user = user;
 //        this.shop = shop;
         this.content = reviewRequestDto.getContent();
         this.ImageUrl = reviewRequestDto.getImageUrl();

@@ -19,7 +19,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping("/api/")
+    @PostMapping("/api/review")
     public ResponseEntity<MsgResponseDto> createReview(@AuthenticationPrincipal UserDetailsImpl userDetails, ReviewRequestDto reviewRequestDto) {
         reviewService.createReview(userDetails,reviewRequestDto);
         return ResponseEntity.ok().body(new MsgResponseDto("리뷰 생성 성공 !", HttpStatus.OK.value()));
