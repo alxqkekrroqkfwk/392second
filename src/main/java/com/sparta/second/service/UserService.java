@@ -1,24 +1,20 @@
 package com.sparta.second.service;
 
-<<<<<<< HEAD
-import com.sparta.second.entity.User;
-import com.sparta.second.repository.UserRepository;
-import com.sparta.second.dto.signupRequestDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-=======
+
+import com.sparta.second.dto.LoginRequestDto;
 import com.sparta.second.dto.PasswordRequestDto;
 import com.sparta.second.dto.ProfileUpdateDto;
+import com.sparta.second.dto.SignupRequestDto;
 import com.sparta.second.entity.User;
+import com.sparta.second.jwt.JwtUtil;
 import com.sparta.second.repository.UserRepository;
 import com.sparta.second.security.UserDetailsImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
->>>>>>> origin/profile
+
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +22,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-<<<<<<< HEAD
+
     // 회원가입
-    public void signup(signupRequestDto requestDto) {
+    public void signup(SignupRequestDto requestDto) {
         String username = requestDto.getUserName();
         String password = passwordEncoder.encode(requestDto.getUserPassword());
         String email = requestDto.getUserEmail();
@@ -42,19 +39,16 @@ public class UserService {
         User user = new User(username, password,email, Nick);
         userRepository.save(user);
     }
-=======
+
     public ProfileUpdateDto detailProfile (UserDetailsImpl userDetails) {
         ProfileUpdateDto profileUpdateDto = new ProfileUpdateDto(userDetails.getUser());
         return profileUpdateDto;
     }
 
     @Transactional
-    public ProfileUpdateDto updateProfile (ProfileUpdateDto profileUpdateDto, UserDetailsImpl userDetails, PasswordRequestDto requestDto) throws Exception {
+    public ProfileUpdateDto updateProfile (ProfileUpdateDto profileUpdateDto, UserDetailsImpl userDetails) throws Exception {
 
-        requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-        // 비밀번호를 암호화하여 requestDto의 비밀번호 필드에 설정
-
-        if (!passwordEncoder.matches(requestDto.getPassword(), userDetails.getUser().getUserPassword())) {
+        if (!passwordEncoder.matches(profileUpdateDto.getUserPassword(), userDetails.getUser().getUserPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
         // 수정 페이지로 넘어가기 전 비밀번호 확인
@@ -74,5 +68,19 @@ public class UserService {
     }
 
 
->>>>>>> origin/profile
+    public void login(LoginRequestDto loginRequestDto, HttpServletResponse res) {
+        String username = loginRequestDto.getUserName();
+        String password = loginRequestDto.getPassword();
+
+        User user = userRepository.findByUserName(username).orElseThrow(
+                () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
+        );
+
+        if (!passwordEncoder.matches(password,user.getUserPassword())) {
+            throw  new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        String token = jwtUtil.createToken(user.getUserName());
+        jwtUtil.addJwtToCookie(token,res);
+    }
 }

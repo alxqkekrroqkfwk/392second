@@ -1,13 +1,13 @@
 package com.sparta.second.controller;
 
-import com.sparta.second.dto.PasswordRequestDto;
-import com.sparta.second.dto.ProfileUpdateDto;
+import com.sparta.second.dto.*;
 import com.sparta.second.security.UserDetailsImpl;
 import com.sparta.second.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,9 +20,19 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/signup")
-    public ResponseEntity<MsgResponseDto> signup(@RequestBody signupRequestDto requestDto){
+    public ResponseEntity<MsgResponseDto> signup(@RequestBody SignupRequestDto requestDto){
         userService.signup(requestDto);
         return ResponseEntity.ok().body(new MsgResponseDto("회원가입 성공", HttpStatus.CREATED.value()));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<MsgResponseDto> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse res) {
+        try {
+            userService.login(loginRequestDto,res);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().body(new MsgResponseDto("로그인 성공",HttpStatus.OK.value()));
     }
 
 
@@ -37,7 +47,7 @@ public class UserController {
                                               @RequestParam(value = "image", required = false) MultipartFile image,
                                               PasswordRequestDto requestDto) throws Exception {
 
-        return userService.updateProfile(profileUpdateDto, userDetails, requestDto);
+        return userService.updateProfile(profileUpdateDto, userDetails);
         // msg로 반환하기로 바꾸기!
         // MsgResponseDto를 ProfileUpdateDto로 감싼다
     }
