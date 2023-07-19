@@ -42,12 +42,13 @@ public class UserController {
     }
 
     @PutMapping("/profile")
-    public ProfileUpdateDto profileUpdateDto (@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                              @RequestBody ProfileUpdateDto profileUpdateDto,
-                                              @RequestParam(value = "image", required = false) MultipartFile image,
-                                              PasswordRequestDto requestDto) throws Exception {
+    public ResponseEntity<MsgResponseDto> profileUpdateDto (@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                              @RequestBody ProfileUpdateDto profileUpdateDto
+                                              ) throws Exception {
 
-        return userService.updateProfile(profileUpdateDto, userDetails);
+        userService.updateProfile(profileUpdateDto, userDetails);
+
+        return ResponseEntity.ok().body(new MsgResponseDto("프로필 수정 성공", HttpStatus.CREATED.value()));
         // msg로 반환하기로 바꾸기!
         // MsgResponseDto를 ProfileUpdateDto로 감싼다
     }
