@@ -14,7 +14,7 @@ import java.net.URL;
 @Setter
 @Table(name = "menus")
 @NoArgsConstructor
-public class Menu {
+public class Menu extends TimeStamped{
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

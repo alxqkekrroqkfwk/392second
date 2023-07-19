@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.concurrent.RejectedExecutionException;
 
 @RestController
@@ -21,14 +22,14 @@ public class MenuController {
     private final MenuService menuService;
 
     //해당 가게 메뉴판 리스트 조회
-    @GetMapping("/menu/{shop_id}")
+    @GetMapping("/menus")
     public ResponseEntity<MenuListResponseDto> getMenus() {
         MenuListResponseDto menuListResponseDto = menuService.getMenus();
         return ResponseEntity.ok().body(menuListResponseDto);
     }
 
     //해당 가게 메뉴판 개별 조회
-    @GetMapping("/menu/{shop_id}/{menu_id}")
+    @GetMapping("/menu/{menu_id}")
     public ResponseEntity<MenuResponseDto> getMenu(@PathVariable Long menu_id) {
         MenuResponseDto menuResponseDto = new MenuResponseDto(menuService.findMenu(menu_id));
         return ResponseEntity.ok().body(menuResponseDto);
