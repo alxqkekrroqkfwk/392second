@@ -1,7 +1,6 @@
 package com.sparta.second.security;
 
 import com.sparta.second.entity.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
