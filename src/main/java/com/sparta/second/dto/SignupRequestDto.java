@@ -1,13 +1,12 @@
 package com.sparta.second.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class signupRequestDto {
+public class SignupRequestDto {
 
     @NotBlank
     private String userName;
@@ -16,7 +15,7 @@ public class signupRequestDto {
     private String userPassword;
 
     @NotBlank
-    @Email
+//    @Email
     private String userEmail;
 
     @NotBlank
