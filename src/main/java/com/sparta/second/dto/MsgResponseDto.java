@@ -5,16 +5,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// 메세지와 코드 반환용
 @Getter
 @Setter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MsgResponseDto {
+
     private String msg;
     private Integer statusCode;
 
-    public MsgResponseDto (String msg, Integer statusCode) {
+    public MsgResponseDto(String msg, Integer statusCode){
         this.msg = msg;
         this.statusCode = statusCode;
     }
+
 }
