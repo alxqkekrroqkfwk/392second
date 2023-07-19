@@ -6,6 +6,7 @@ import com.sparta.second.dto.ReviewRequestDto;
 import com.sparta.second.dto.ReviewResponseDto;
 import com.sparta.second.security.UserDetailsImpl;
 import com.sparta.second.service.ReviewService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/api/review")
-    public ResponseEntity<MsgResponseDto> createReview(@AuthenticationPrincipal UserDetailsImpl userDetails, ReviewRequestDto reviewRequestDto) {
+    public ResponseEntity<MsgResponseDto> createReview(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody ReviewRequestDto reviewRequestDto) {
         reviewService.createReview(userDetails,reviewRequestDto);
         return ResponseEntity.ok().body(new MsgResponseDto("리뷰 생성 성공 !", HttpStatus.OK.value()));
     }
@@ -36,11 +37,11 @@ public class ReviewController {
         ReviewListResponseDto reviewListResponseDto=reviewService.getReviews();
         return ResponseEntity.ok().body(reviewListResponseDto);
     }
-
+    @Transactional
     @PutMapping("/api/review/{review_Id}")
     public ResponseEntity<MsgResponseDto> update(@AuthenticationPrincipal UserDetailsImpl userDetails,@PathVariable Long review_Id,@RequestBody ReviewRequestDto reviewRequestDto) {
         reviewService.update(userDetails.getUser(), review_Id,reviewRequestDto);
-        return ResponseEntity.ok().body(new MsgResponseDto("댓글 수정 완료", HttpStatus.OK.value()));
+        return ResponseEntity.ok().body(new MsgResponseDto("리뷰 수정 완료", HttpStatus.OK.value()));
     }
 
     @DeleteMapping("api/review/{review_Id}")

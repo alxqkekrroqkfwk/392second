@@ -3,7 +3,6 @@ package com.sparta.second.entity;
 
 import com.sparta.second.dto.ProfileUpdateDto;
 import com.sparta.second.dto.UserRequestDto;
-import com.sparta.second.dto.UserRoleEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
@@ -20,7 +19,7 @@ import java.net.URL;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long user_id;
 
     @Column(nullable = false,unique = true)
     private String userName;
@@ -45,9 +44,6 @@ public class User {
     @Column
     private URL myImage;
 
-//    @Column
-//    @OneToMany
-//    private Review review;
     public User(String username, String password, String email, String Nick, UserRoleEnum role) {
     this.userName = username;
     this.userPassword = password;

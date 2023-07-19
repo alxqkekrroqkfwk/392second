@@ -26,20 +26,18 @@ public class Shop extends TimeStamped{
     private String shopContent;
 
     @Column(name = "userName")
-//    @Email
     private String userName;
 
-    /*@JoinColumn(name = "user")
-    private User user;*/
-
-    /*@Column(name = "shopImage", nullable = false)
-    private*/
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
-    public Shop(ShopRequestDto requestDto, User id) {
+    public Shop(ShopRequestDto requestDto, User user) {
         this.shopName = requestDto.getShopName();
         this.shopContent = requestDto.getShopContent();
         this.userName = requestDto.getUserName();
+        this.user = user;
     }
 
     public void update(ShopRequestDto requestDto) {

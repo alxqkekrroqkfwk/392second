@@ -1,13 +1,15 @@
 package com.sparta.second.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.net.URL;
 
 
 @Getter
+//@NoArgsConstructor
 public class ReviewRequestDto {
-    private String Content;
-    private URL ImageUrl;
-    private Long ShopId;
+    private String content;
+    private URL imageUrl;
+    private Long shopId;
 }
