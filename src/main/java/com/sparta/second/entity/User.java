@@ -1,6 +1,8 @@
 package com.sparta.second.entity;
 
 
+import com.sparta.second.dto.ProfileUpdateDto;
+import com.sparta.second.dto.UserRequestDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
@@ -26,10 +28,10 @@ public class User {
     private String userPassword;
 
     @Column(nullable = false)
-    private String getUserNick;
+    private String userNick;
 
     @Column(nullable = false)
-    @Email
+//    @Email
     private String userEmail;
 
     @Column
@@ -41,4 +43,16 @@ public class User {
 //    @Column
 //    @OneToMany
 //    private Review review;
+    public User(String username, String password, String email, String Nick) {
+    this.userName = username;
+    this.userPassword = password;
+    this.userNick = email;
+    this.userEmail = Nick;
+}
+
+    public void updateProfile(ProfileUpdateDto profileUpdateDto) {
+        this.userEmail = profileUpdateDto.getUserEmail();
+        this.userNick = profileUpdateDto.getUserNick();
+        this.myContent = profileUpdateDto.getMyContent();
+    }
 }
