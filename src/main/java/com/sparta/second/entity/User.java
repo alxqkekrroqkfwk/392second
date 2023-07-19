@@ -19,7 +19,7 @@ import java.net.URL;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long user_id;
 
     @Column(nullable = false,unique = true)
     private String userName;
@@ -40,9 +40,6 @@ public class User {
     @Column
     private URL myImage;
 
-//    @Column
-//    @OneToMany
-//    private Review review;
     public User(String username, String password, String email, String Nick) {
     this.userName = username;
     this.userPassword = password;
