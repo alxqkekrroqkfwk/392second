@@ -23,25 +23,23 @@ public class ShopController {
     private final ShopService shopService;
 
     // 가게 조회
-    @GetMapping("/shop")
+    @GetMapping("/shops")
     public ResponseEntity<ShopListResponseDto> getShops() {
         ShopListResponseDto shopListResponseDto = shopService.getShops();
         return ResponseEntity.ok().body(shopListResponseDto);
     }
 
-    @GetMapping("/shop/{id}")
-    public ShopResponseDto getShop(@PathVariable Long shopId){
-        ShopResponseDto responseDto = shopService.getShop(shopId);
-        return responseDto;
+    @GetMapping("/shop/{shopId}")
+    public ResponseEntity<ShopResponseDto> getShop(@PathVariable Long shopId) {
+        ShopResponseDto shopResponseDto = new ShopResponseDto(shopService.findShop(shopId));
+        return ResponseEntity.ok().body(shopResponseDto);
     }
-
 
     @PostMapping("/shop")
-    public ShopResponseDto createShop(@RequestBody ShopRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return shopService.createShop(requestDto,userDetails.getUser());
-
+    public ResponseEntity<MsgResponseDto> createShop(@RequestBody ShopRequestDto requestDto) {
+        shopService.createShop(requestDto);
+        return ResponseEntity.ok().body(new MsgResponseDto("가게 생성 성공", HttpStatus.OK.value()));
     }
-
 
     @DeleteMapping("/shop/{id}")
     public ResponseEntity<com.sparta.second.dto.MsgResponseDto> deleteShop(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) {
