@@ -1,6 +1,8 @@
 package com.sparta.second.entity;
 
-
+import com.sparta.second.dto.ProfileUpdateDto;
+import com.sparta.second.dto.UserRequestDto;
+import com.sparta.second.dto.UserResponseDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
@@ -19,29 +21,38 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,unique = true)
+    // 유저 이름
+    @Column(nullable = false, unique = true)
     private String userName;
 
+    // 유저 비밀번호
     @Column(nullable = false)
     private String userPassword;
 
+    // 유저 닉네임
     @Column(nullable = false)
-    private String getUserNick;
+    private String userNick;
 
+    // 유저 이메일
     @Column(nullable = false)
     @Email
     private String userEmail;
 
+    // 유저 자기소개
     @Column
     private String myContent;
 
-    @Column
-    private URL myImage;
+    public User(UserRequestDto userRequestDto) {
+        this.userName = userRequestDto.getUserName();
+        this.userPassword = userRequestDto.getUserPassword();
+        this.userNick = userRequestDto.getUserNick();
+        this.userEmail = userRequestDto.getUserEmail();
+    }
 
-    public User(String userName, String userPassword, String userEmail,String getUserNick){
-        this.userName = userName;
-        this.userPassword =userPassword;
-        this.userEmail = userEmail;
-        this.getUserNick = getUserNick;
+    public void updateProfile(ProfileUpdateDto profileUpdateDto) {
+        this.userEmail = profileUpdateDto.getUserEmail();
+        this.userPassword = profileUpdateDto.getUserPassword();
+        this.userNick = profileUpdateDto.getUserNick();
+        this.myContent = profileUpdateDto.getMyContent();
     }
 }
