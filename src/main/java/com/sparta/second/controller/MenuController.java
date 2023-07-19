@@ -4,6 +4,8 @@ import com.sparta.second.dto.MenuListResponseDto;
 import com.sparta.second.dto.MenuRequestDto;
 import com.sparta.second.dto.MenuResponseDto;
 import com.sparta.second.dto.MsgResponseDto;
+import com.sparta.second.entity.Shop;
+import com.sparta.second.entity.User;
 import com.sparta.second.security.UserDetailsImpl;
 import com.sparta.second.service.MenuService;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +39,8 @@ public class MenuController {
 
     // 가게 메뉴판 작성
     @PostMapping("/menu")
-    public ResponseEntity<MsgResponseDto> createMenu(@RequestBody MenuRequestDto requestDto) {
-        menuService.createMenu(requestDto);
+    public ResponseEntity<MsgResponseDto> createMenu(@RequestBody MenuRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        menuService.createMenu(requestDto, userDetails.getUser());
         return ResponseEntity.ok().body(new MsgResponseDto("메뉴판 작성 성공", HttpStatus.OK.value()));
     }
 
