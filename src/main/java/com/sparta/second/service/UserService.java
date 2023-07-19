@@ -51,7 +51,7 @@ public class UserService {
         }
         // 수정 페이지로 넘어가기 전 비밀번호 확인
 
-        User targetUser = userRepository.findById(userDetails.getUser().getId()).orElseThrow(() -> new Exception ());
+        User targetUser = userRepository.findById(userDetails.getUser().getUser_id()).orElseThrow(() -> new Exception ());
         // targetUser는 User클래스의 객체이다
         // userRepository에서 userId로 user를 한 개 찾아온다
         // userId는 현재 로그인 한 Id를 찾아와야 함으로 userDetails를 실행시킨다
