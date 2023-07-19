@@ -23,6 +23,9 @@ public class SignupRequestDto {
 
     @NotBlank
     private String userNick;
+
+    @NotBlank
+    private UserRoleEnum role;
 }
 
 

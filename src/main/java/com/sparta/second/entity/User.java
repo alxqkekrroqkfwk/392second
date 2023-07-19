@@ -3,6 +3,7 @@ package com.sparta.second.entity;
 
 import com.sparta.second.dto.ProfileUpdateDto;
 import com.sparta.second.dto.UserRequestDto;
+import com.sparta.second.dto.UserRoleEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
@@ -34,6 +35,10 @@ public class User {
 //    @Email
     private String userEmail;
 
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
     @Column
     private String myContent;
 
@@ -43,11 +48,12 @@ public class User {
 //    @Column
 //    @OneToMany
 //    private Review review;
-    public User(String username, String password, String email, String Nick) {
+    public User(String username, String password, String email, String Nick, UserRoleEnum role) {
     this.userName = username;
     this.userPassword = password;
     this.userNick = email;
     this.userEmail = Nick;
+    this.role = role;
 }
 
     public void updateProfile(ProfileUpdateDto profileUpdateDto) {
