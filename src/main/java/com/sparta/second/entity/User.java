@@ -19,7 +19,7 @@ import java.net.URL;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long user_id;
 
     @Column(nullable = false,unique = true)
     private String userName;
@@ -34,20 +34,22 @@ public class User {
 //    @Email
     private String userEmail;
 
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
     @Column
     private String myContent;
 
     @Column
     private URL myImage;
 
-//    @Column
-//    @OneToMany
-//    private Review review;
-    public User(String username, String password, String email, String Nick) {
+    public User(String username, String password, String email, String Nick, UserRoleEnum role) {
     this.userName = username;
     this.userPassword = password;
     this.userNick = email;
     this.userEmail = Nick;
+    this.role = role;
 }
 
     public void updateProfile(ProfileUpdateDto profileUpdateDto) {
