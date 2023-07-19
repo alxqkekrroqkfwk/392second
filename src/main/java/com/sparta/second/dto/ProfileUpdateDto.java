@@ -2,11 +2,12 @@ package com.sparta.second.dto;
 
 import com.sparta.second.entity.User;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-
+@NoArgsConstructor
 public class ProfileUpdateDto {
     private String userEmail;
     private String userPassword;
