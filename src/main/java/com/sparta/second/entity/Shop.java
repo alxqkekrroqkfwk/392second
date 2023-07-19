@@ -2,10 +2,11 @@ package com.sparta.second.entity;
 
 import com.sparta.second.dto.ShopRequestDto;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.net.URL;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ import lombok.Setter;
 @Table(name = "shop")
 @NoArgsConstructor
 
-public class Shop extends TimeStamped{
+public class Shop {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -25,9 +26,16 @@ public class Shop extends TimeStamped{
     @Column(name = "shopContent", nullable = false, length = 500)
     private String shopContent;
 
-    @Column(name = "userName")
-//    @Email
-    private String userName;
+    @Column(name = "shopImage")
+    private URL shopImage;
+
+    @Column(name = "category")
+    private String category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin")
+    private User user;
+
 
     /*@JoinColumn(name = "user")
     private User user;*/
@@ -36,16 +44,18 @@ public class Shop extends TimeStamped{
     private*/
 
 
-    public Shop(ShopRequestDto requestDto, User id) {
+    public Shop(ShopRequestDto requestDto) {
+        this.category = requestDto.getCategory();
         this.shopName = requestDto.getShopName();
         this.shopContent = requestDto.getShopContent();
-        this.userName = requestDto.getUserName();
+        this.shopImage = requestDto.getShopImage();
     }
 
     public void update(ShopRequestDto requestDto) {
+        this.category = requestDto.getCategory();
         this.shopName = requestDto.getShopName();
         this.shopContent = requestDto.getShopContent();
-        this.userName = requestDto.getUserName();
+        this.shopImage = requestDto.getShopImage();
     }
 
 }

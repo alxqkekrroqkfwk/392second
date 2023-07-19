@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
 @RestController
@@ -28,19 +29,17 @@ public class ShopController {
         return ResponseEntity.ok().body(shopListResponseDto);
     }
 
-    @GetMapping("/shop/{id}")
-    public ShopResponseDto getShop(@PathVariable Long shopId){
-        ShopResponseDto responseDto = shopService.getShop(shopId);
-        return responseDto;
+    @GetMapping("/shop/{shopId}")
+    public ResponseEntity<ShopResponseDto> getShop(@PathVariable Long shopId) {
+        ShopResponseDto shopResponseDto = new ShopResponseDto(shopService.findShop(shopId));
+        return ResponseEntity.ok().body(shopResponseDto);
     }
-
 
     @PostMapping("/shop")
-    public ResponseEntity<MsgResponseDto> createShop(@RequestBody ShopRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        shopService.createShop(requestDto,userDetails.getUser());
-        return ResponseEntity.ok().body(new MsgResponseDto("가게 생성 완료 !",HttpStatus.OK.value()));
+    public ResponseEntity<MsgResponseDto> createShop(@RequestBody ShopRequestDto requestDto) {
+        shopService.createShop(requestDto);
+        return ResponseEntity.ok().body(new MsgResponseDto("가게 생성 성공", HttpStatus.OK.value()));
     }
-
 
     @DeleteMapping("/shop/{id}")
     public ResponseEntity<com.sparta.second.dto.MsgResponseDto> deleteShop(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) {
