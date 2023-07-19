@@ -3,7 +3,6 @@ package com.sparta.second.config;
 import com.sparta.second.jwt.JwtAuthenticationFilter;
 import com.sparta.second.jwt.JwtAuthorizationFilter;
 import com.sparta.second.jwt.JwtUtil;
-import com.sparta.second.jwt.JwtUtil;
 import com.sparta.second.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -58,7 +57,8 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
-                        .requestMatchers("/api/**").permitAll() //
+                        .requestMatchers("/api/signup").permitAll()
+                        .requestMatchers("/api/**").permitAll()//
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
