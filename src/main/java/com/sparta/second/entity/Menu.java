@@ -32,6 +32,10 @@ public class Menu extends TimeStamped{
     @Column(name = "menuImage")
     private URL menuImage;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin")
+    private User user;
+
     public Menu(MenuRequestDto requestDto){
         this.menuTitle = requestDto.getMenuTitle();
         this.menuCategory = requestDto.getMenuCategory();
