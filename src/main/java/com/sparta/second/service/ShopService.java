@@ -25,30 +25,23 @@ public class ShopService {
         return new ShopListResponseDto(shopList.stream().map(ShopResponseDto::new).toList());
     }
 
-    // get Content 단건조회 메서드 추가
-    public ShopResponseDto getShop(Long shopId) {
-        Shop shop = findShop(shopId);
-        return new ShopResponseDto(shop);
-    }
-
     public Shop findShop(Long shopId) {
         return shopRepository.findById(shopId).orElseThrow(() ->
                 new IllegalArgumentException("가게 조회 실패"));
     }
 
     @Transactional
-    public ShopResponseDto createShop(ShopRequestDto requestDto, User user) {
-        Shop shop = shopRepository.save(new Shop(requestDto, user));
-        return new ShopResponseDto(shop);
+    public void createShop(ShopRequestDto shopRequestDto) {
+        shopRepository.save(new Shop(shopRequestDto));
     }
 
     // id 값 수정(username), 유효성 검사 수정
     @Transactional
     public void deleteShop(Long shopId, User user) {
-        String id = user.getUserName();
+        String id = findShop(shopId).getUser().getUserName();
         Shop shop = findShop(shopId);
 
-        if (!id.equals(shop.getUserName())) {
+        if (!id.equals(user.getUserName())) {
             throw new RejectedExecutionException();
         } else
             shopRepository.delete(shop);
@@ -56,10 +49,10 @@ public class ShopService {
 
     @Transactional
     public ShopResponseDto updateShop(Long shopId, ShopRequestDto requestDto, User user) {
-        String id = user.getUserName();
+        String id = findShop(shopId).getUser().getUserName();
         Shop shop = findShop(shopId);
 
-        if (!id.equals(shop.getUserName())) {
+        if (!id.equals(user.getUserName())) {
             throw new RejectedExecutionException();
         }
 
@@ -68,5 +61,7 @@ public class ShopService {
 
         return new ShopResponseDto(shop);
     }
+
+
 
 }
