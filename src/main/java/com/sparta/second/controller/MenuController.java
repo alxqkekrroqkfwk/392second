@@ -31,7 +31,7 @@ public class MenuController {
     //해당 가게 메뉴판 개별 조회
     @GetMapping("/menu/{menu_id}")
     public ResponseEntity<MenuResponseDto> getMenu(@PathVariable Long menu_id) {
-        MenuResponseDto menuResponseDto = new MenuResponseDto(menuService.findMenu(menu_id));
+        MenuResponseDto menuResponseDto = menuService.getMenu(menu_id);
         return ResponseEntity.ok().body(menuResponseDto);
     }
 
