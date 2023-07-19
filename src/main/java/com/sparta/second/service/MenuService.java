@@ -26,9 +26,12 @@ public class MenuService {
         return new MenuListResponseDto(menuList.stream().map(MenuResponseDto::new).toList());
     }
     // 메뉴 상세 조회
-    public Menu findMenu(Long id) {
-        return menuRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("선택한 메뉴가 존재하지 않습니다."));
+    public MenuResponseDto getMenu(Long menu_id) {
+        Menu menu = findMenu(menu_id);
+
+        MenuResponseDto menuResponseDto = new MenuResponseDto(menu);
+
+        return menuResponseDto;
     }
 
     // 메뉴 생성
@@ -40,10 +43,10 @@ public class MenuService {
     //메뉴 삭제
     @Transactional
     public void deleteMenu(Long menu_id, User user) {
-        String id = user.getUserName();
+        String id = findMenu(menu_id).getUser().getUserName();
         Menu menu = findMenu(menu_id);
 
-        if (id.equals(user.getUserName())) {
+        if (!(id.equals(user.getUserName()))) {
             throw new RejectedExecutionException();
         } else {
             menuRepository.delete(menu);
@@ -53,10 +56,10 @@ public class MenuService {
     // 메뉴 수정
     @Transactional
     public MenuResponseDto updateMenu(Long menu_id, MenuRequestDto menurequestDto, User user) {
-        String id = user.getUserName();
+        String id = findMenu(menu_id).getUser().getUserName();
         Menu menu = findMenu(menu_id);
 
-        if (id.equals(user.getUserName())) {
+        if (!(id.equals(user.getUserName()))) {
             throw new RejectedExecutionException();
         }
         menu.setMenuCategory(menurequestDto.getMenuCategory());
@@ -65,5 +68,9 @@ public class MenuService {
         menu.setMenuImage(menurequestDto.getMenuImage());
 
         return new MenuResponseDto(menu);
+    }
+    public Menu findMenu(Long id) {
+        return menuRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("선택한 메뉴가 존재하지 않습니다."));
     }
 }
