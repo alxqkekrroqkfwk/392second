@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.net.URL;
+import java.util.List;
 
 @Getter
 @Entity
@@ -44,6 +45,13 @@ public class User {
 
     @Column
     private URL myImage;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Shop> shops;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Order> orders;
+
 
     public User(String username, String password, String email, String Nick, UserRoleEnum role) {
     this.userName = username;
