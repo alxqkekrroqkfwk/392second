@@ -49,15 +49,15 @@ public class User {
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<Shop> shops;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private List<Order> orders;
+    /*@OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Order> orders;*/
 
 
     public User(String username, String password, String email, String Nick, UserRoleEnum role) {
     this.userName = username;
     this.userPassword = password;
-    this.userNick = email;
-    this.userEmail = Nick;
+    this.userNick = Nick;
+    this.userEmail = email;
     this.role = role;
 }
 
