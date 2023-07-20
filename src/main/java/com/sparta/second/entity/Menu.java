@@ -1,6 +1,7 @@
 package com.sparta.second.entity;
 
 import com.sparta.second.dto.MenuRequestDto;
+import com.sparta.second.dto.ShopRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,11 +37,21 @@ public class Menu extends TimeStamped{
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    public Menu(MenuRequestDto requestDto,Shop shop){
-        this.menuTitle = requestDto.getMenuTitle();
-        this.menuCategory = requestDto.getMenuCategory();
-        this.menuContent = requestDto.getContent();
-        this.menuImage = requestDto.getMenuImage();
+    @ManyToOne
+    private Order order;
+
+    public Menu(MenuRequestDto menuRequestDto,Shop shop){
+        this.menuTitle = menuRequestDto.getMenuTitle();
+        this.menuCategory = menuRequestDto.getMenuCategory();
+        this.menuContent = menuRequestDto.getContent();
+        this.menuImage = menuRequestDto.getMenuImage();
         this.shop = shop;
+    }
+
+    public void update(MenuRequestDto menuRequestDto) {
+        this.menuTitle = menuRequestDto.getMenuTitle();
+        this.menuCategory = menuRequestDto.getMenuCategory();
+        this.menuContent = menuRequestDto.getContent();
+        this.menuImage = menuRequestDto.getMenuImage();
     }
 }
