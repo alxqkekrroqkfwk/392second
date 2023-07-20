@@ -6,6 +6,7 @@ import com.sparta.second.dto.ReviewRequestDto;
 import com.sparta.second.dto.ReviewResponseDto;
 import com.sparta.second.security.UserDetailsImpl;
 import com.sparta.second.service.ReviewService;
+import com.sun.jdi.request.DuplicateRequestException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,5 +49,16 @@ public class ReviewController {
     public ResponseEntity<MsgResponseDto> delete(@AuthenticationPrincipal UserDetailsImpl userDetails,@PathVariable Long review_Id) {
         reviewService.delete(userDetails.getUser(),review_Id);
         return ResponseEntity.ok().body(new MsgResponseDto("리뷰 삭제 성공",HttpStatus.OK.value()));
+    }
+
+    @PostMapping("/comments/{id}/like")
+    public ResponseEntity<MsgResponseDto> createLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) {
+        try {
+            reviewService.likeReview(id, userDetails.getUser());
+        } catch (DuplicateRequestException e) {
+            return ResponseEntity.badRequest().body(new MsgResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(new MsgResponseDto("댓글 좋아요 성공", HttpStatus.ACCEPTED.value()));
     }
 }

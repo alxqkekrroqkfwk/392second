@@ -4,13 +4,17 @@ import com.sparta.second.dto.ReviewListResponseDto;
 import com.sparta.second.dto.ReviewRequestDto;
 import com.sparta.second.dto.ReviewResponseDto;
 import com.sparta.second.entity.Review;
+import com.sparta.second.entity.ReviewLike;
 import com.sparta.second.entity.Shop;
 import com.sparta.second.entity.User;
+import com.sparta.second.repository.ReviewLikeRepository;
 import com.sparta.second.repository.ReviewRepository;
 import com.sparta.second.repository.ShopRepository;
 import com.sparta.second.security.UserDetailsImpl;
+import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
@@ -22,6 +26,8 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ShopRepository shopRepository;
+    private final ReviewLikeRepository reviewLikeRepository;
+
     public void createReview(UserDetailsImpl userDetails, ReviewRequestDto reviewRequestDto) {
         Shop shop = shopRepository.findById(reviewRequestDto.getShopId()).orElseThrow(() -> new RuntimeException());
 
@@ -70,4 +76,17 @@ public class ReviewService {
         return reviewRepository.findById(reviewId).orElseThrow(() ->
                 new IllegalArgumentException("선택한 게시물이 없습니다."));
     }
+
+    @Transactional
+    public void likeReview(Long id, User user) {
+        Review review = findReview(id);
+
+        if (reviewLikeRepository.existsByUserAndReview(user, review)) {
+            throw new DuplicateRequestException("이미 좋아요 한 댓글 입니다.");
+        } else {
+            ReviewLike reviewLike = new ReviewLike(user, review);
+            reviewLikeRepository.save(reviewLike);
+        }
+    }
+
 }

@@ -13,11 +13,13 @@ public class ReviewResponseDto {
     private URL imageUrl;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
+    private Integer likeCount;
 
     public ReviewResponseDto(Review review) {
         this.content = review.getContent();
         this.imageUrl = review.getImageUrl();
         this.createdAt = review.getCreatedAt();
         this.modifiedAt = review.getModifiedAt();
+        this.likeCount = review.getReviewLikes().size();
     }
 }
