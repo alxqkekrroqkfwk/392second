@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.net.URL;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -24,9 +25,13 @@ public class Review extends TimeStamped {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
     @ManyToOne
     @JoinColumn(name = "shop_id")
     private Shop shop;
+
+    @OneToMany(mappedBy = "Review", cascade = CascadeType.REMOVE)
+    private List<ReviewLike> reviewLikes = new ArrayList<>();
 
     public Review(User user , ReviewRequestDto reviewRequestDto,Shop shop) {
         this.user = user;

@@ -49,4 +49,15 @@ public class ReviewController {
         reviewService.delete(userDetails.getUser(),review_Id);
         return ResponseEntity.ok().body(new MsgResponseDto("리뷰 삭제 성공",HttpStatus.OK.value()));
     }
+
+    // 리뷰에 좋아요 삭제
+    @DeleteMapping("api/review/{reviewId}/like")
+    public ResponseEntity<MsgResponseDto> deleteLike(@PathVariable Long reviewId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        try {
+            reviewService.deleteLike(reviewId,userDetails.getUser());
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(new MsgResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(new MsgResponseDto("좋아요를 취소 하였습니다",HttpStatus.ACCEPTED.value()));
+    }
 }

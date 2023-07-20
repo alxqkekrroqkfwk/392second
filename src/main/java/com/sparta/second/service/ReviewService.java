@@ -4,15 +4,19 @@ import com.sparta.second.dto.ReviewListResponseDto;
 import com.sparta.second.dto.ReviewRequestDto;
 import com.sparta.second.dto.ReviewResponseDto;
 import com.sparta.second.entity.Review;
+import com.sparta.second.entity.ReviewLike;
 import com.sparta.second.entity.Shop;
 import com.sparta.second.entity.User;
+import com.sparta.second.repository.ReviewLikeRepository;
 import com.sparta.second.repository.ReviewRepository;
 import com.sparta.second.repository.ShopRepository;
 import com.sparta.second.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.stream.Collectors;
 
@@ -22,6 +26,8 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ShopRepository shopRepository;
+    private final ReviewLikeRepository reviewLikeRepository;
+
     public void createReview(UserDetailsImpl userDetails, ReviewRequestDto reviewRequestDto) {
         Shop shop = shopRepository.findById(reviewRequestDto.getShopId()).orElseThrow(() -> new RuntimeException());
 
@@ -69,5 +75,17 @@ public class ReviewService {
     private Review findReview(Long reviewId) {
         return reviewRepository.findById(reviewId).orElseThrow(() ->
                 new IllegalArgumentException("선택한 게시물이 없습니다."));
+    }
+
+    // 리뷰에 좋아요 삭제
+    @Transactional
+    public void deleteLike(Long reviewId, User user) {
+        Review review = findReview(reviewId);
+        Optional<ReviewLike> reviewLike = reviewLikeRepository.findByUserAndReview(user, review);
+        if(reviewLike.isPresent()){
+            reviewLikeRepository.delete(reviewLike.get());
+        } else{
+            throw new IllegalArgumentException("좋아요한 댓글이 아닙니다.");
+        }
     }
 }
