@@ -14,7 +14,6 @@ public class ReviewResponseDto {
     private Integer likeCount;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
-    private Integer likeCount;
 
     public ReviewResponseDto(Review review) {
         this.content = review.getContent();
@@ -22,6 +21,5 @@ public class ReviewResponseDto {
         this.likeCount = review.getReviewLikes().size();
         this.createdAt = review.getCreatedAt();
         this.modifiedAt = review.getModifiedAt();
-        this.likeCount = review.getReviewLikes().size();
     }
 }

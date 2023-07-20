@@ -11,6 +11,7 @@ import com.sparta.second.repository.ReviewLikeRepository;
 import com.sparta.second.repository.ReviewRepository;
 import com.sparta.second.repository.ShopRepository;
 import com.sparta.second.security.UserDetailsImpl;
+import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,7 +79,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public void likeReview(Long id, User user) {
+    public void createLike(Long id, User user) {
         Review review = findReview(id);
 
         if (reviewLikeRepository.existsByUserAndReview(user, review)) {

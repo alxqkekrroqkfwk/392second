@@ -6,6 +6,7 @@ import com.sparta.second.dto.ReviewRequestDto;
 import com.sparta.second.dto.ReviewResponseDto;
 import com.sparta.second.security.UserDetailsImpl;
 import com.sparta.second.service.ReviewService;
+import com.sun.jdi.request.DuplicateRequestException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -53,7 +54,7 @@ public class ReviewController {
     @PostMapping("/comments/{id}/like")
     public ResponseEntity<MsgResponseDto> createLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) {
         try {
-            reviewService.likeReview(id, userDetails.getUser());
+            reviewService.createLike(id, userDetails.getUser());
         } catch (DuplicateRequestException e) {
             return ResponseEntity.badRequest().body(new MsgResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
