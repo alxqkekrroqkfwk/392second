@@ -50,7 +50,10 @@ public class User {
     private List<Shop> shops;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private List<Order> orders;
+    private List<ReviewLike> reviewLikes;
+
+//    @OneToMany(mappedBy = "user", orphanRemoval = true)
+//    private List<Order> orders;
 
 
     public User(String username, String password, String email, String Nick, UserRoleEnum role) {
