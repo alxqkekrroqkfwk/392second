@@ -28,10 +28,10 @@ public class ShopController {
         return ResponseEntity.ok().body(shopListResponseDto);
     }
 
-    @GetMapping("/shop/{id}")
-    public ShopResponseDto getShop(@PathVariable Long shopId){
-        ShopResponseDto responseDto = shopService.getShop(shopId);
-        return responseDto;
+    @GetMapping("/shop/{shop_id}")
+    public ResponseEntity<ShopResponseDto> getShop(@PathVariable Long shop_id){
+        ShopResponseDto responseDto = shopService.getShop(shop_id);
+        return ResponseEntity.ok().body(responseDto);
     }
 
 
@@ -41,25 +41,22 @@ public class ShopController {
         return ResponseEntity.ok().body(new MsgResponseDto("가게 생성 완료 !",HttpStatus.OK.value()));
     }
 
-
-    @DeleteMapping("/shop/{id}")
-    public ResponseEntity<com.sparta.second.dto.MsgResponseDto> deleteShop(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) {
+    @PutMapping("/shop/{shop_id}")
+    public ResponseEntity<MsgResponseDto> updateShop(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long shop_id, @RequestBody ShopRequestDto requestDto) {
         try {
-            shopService.deleteShop(id, userDetails.getUser());
-            return ResponseEntity.ok().body(new com.sparta.second.dto.MsgResponseDto("가게 삭제 성공", HttpStatus.OK.value()));
-        } catch (RejectedExecutionException e) {
-            return ResponseEntity.badRequest().body(new com.sparta.second.dto.MsgResponseDto("가게 삭제 실패", HttpStatus.BAD_REQUEST.value()));
-        }
-    }
-
-    @PutMapping("/shop/{id}")
-    public ResponseEntity<com.sparta.second.dto.MsgResponseDto> updateShop(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id, @RequestBody ShopRequestDto requestDto) {
-        try {
-            ShopResponseDto result = shopService.updateShop(id, requestDto, userDetails.getUser());
-            return ResponseEntity.ok().body(new MsgResponseDto("가게 수정 성공",HttpStatus.OK.value()));
+            shopService.updateShop(shop_id, requestDto, userDetails.getUser());
+            return ResponseEntity.ok().body(new MsgResponseDto("가게 수정 성공", HttpStatus.OK.value()));
         } catch (RejectedExecutionException e) {
             return ResponseEntity.badRequest().body(new MsgResponseDto("가게 수정 실패", HttpStatus.BAD_REQUEST.value()));
         }
     }
-
+    @DeleteMapping("/shop/{shop_id}")
+    public ResponseEntity<MsgResponseDto> deleteShop (@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long shop_id){
+        try {
+            shopService.deleteShop(shop_id, userDetails.getUser());
+            return ResponseEntity.ok().body(new MsgResponseDto("가게 삭제 성공", HttpStatus.OK.value()));
+        } catch (RejectedExecutionException e) {
+            return ResponseEntity.badRequest().body(new MsgResponseDto("가게 삭제 실패", HttpStatus.BAD_REQUEST.value()));
+        }
+    }
 }

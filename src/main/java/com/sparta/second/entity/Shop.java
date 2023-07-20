@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -27,6 +30,12 @@ public class Shop extends TimeStamped{
 
     @Column(name = "userName")
     private String userName;
+
+    @OneToMany(mappedBy = "shop", orphanRemoval = true)
+    private List<Menu> menus;
+
+    @OneToMany(mappedBy = "shop", orphanRemoval = true)
+    private List<Review> reviews;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
