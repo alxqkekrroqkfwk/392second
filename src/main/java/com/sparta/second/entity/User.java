@@ -3,6 +3,7 @@ package com.sparta.second.entity;
 
 import com.sparta.second.dto.ProfileUpdateDto;
 import com.sparta.second.dto.UserRequestDto;
+import com.sparta.second.dto.UserRoleEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
