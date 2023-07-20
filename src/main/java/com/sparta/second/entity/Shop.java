@@ -58,4 +58,5 @@ public class Shop {
         this.shopImage = requestDto.getShopImage();
     }
 
+
 }
