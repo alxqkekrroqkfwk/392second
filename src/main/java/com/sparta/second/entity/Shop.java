@@ -55,4 +55,5 @@ public class Shop extends TimeStamped{
         this.userName = requestDto.getUserName();
     }
 
+
 }
