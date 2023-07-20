@@ -10,7 +10,7 @@ import java.net.URL;
 public class ShopRequestDto {
 
     private String UserName;
-    private String category;
+    //private String category;
     private String shopName;
     private String shopContent;
     private URL shopImage;
