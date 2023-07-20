@@ -7,13 +7,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.net.URL;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "shop")
 @NoArgsConstructor
 
-public class Shop extends TimeStamped{
+public class Shop {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -25,25 +27,36 @@ public class Shop extends TimeStamped{
     @Column(name = "shopContent", nullable = false, length = 500)
     private String shopContent;
 
-    @Column(name = "userName")
-    private String userName;
+    @Column(name = "shopImage")
+    private URL shopImage;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @Column(name = "category")
+    private String category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin")
     private User user;
 
 
-    public Shop(ShopRequestDto requestDto, User user) {
+    /*@JoinColumn(name = "user")
+    private User user;*/
+
+    /*@Column(name = "shopImage", nullable = false)
+    private*/
+
+
+    public Shop(ShopRequestDto requestDto) {
+        this.category = requestDto.getCategory();
         this.shopName = requestDto.getShopName();
         this.shopContent = requestDto.getShopContent();
-        this.userName = requestDto.getUserName();
-        this.user = user;
+        this.shopImage = requestDto.getShopImage();
     }
 
     public void update(ShopRequestDto requestDto) {
+        this.category = requestDto.getCategory();
         this.shopName = requestDto.getShopName();
         this.shopContent = requestDto.getShopContent();
-        this.userName = requestDto.getUserName();
+        this.shopImage = requestDto.getShopImage();
     }
 
 }
