@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FollowRepository extends JpaRepository<Follow, Integer> {
     Follow findByShopAndUser(Shop shop, User user);
-    Follow findFollowByBoard(Shop shop);
+    Follow findFollowByShop(Shop shop);
 }

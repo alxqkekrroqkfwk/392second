@@ -36,7 +36,7 @@ public class FollowService {
             return "팔로우 완료";
         } else {
             // 팔로우 누른적 있다면 즐겨찾기 처리 후 테이블 삭제
-            Follow follow = followRepository.findFollowByBoard(shop);
+            Follow follow = followRepository.findFollowByShop(shop);
             follow.unFavoriteBoard(shop);
             followRepository.delete(follow);
             return "언팔로우 완료";
