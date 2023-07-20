@@ -37,13 +37,6 @@ public class Shop {
     private User user;
 
 
-    /*@JoinColumn(name = "user")
-    private User user;*/
-
-    /*@Column(name = "shopImage", nullable = false)
-    private*/
-
-
     public Shop(ShopRequestDto requestDto) {
         this.category = requestDto.getCategory();
         this.shopName = requestDto.getShopName();
