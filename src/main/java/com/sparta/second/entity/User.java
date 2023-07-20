@@ -64,6 +64,7 @@ public class User {
 
     public void updateProfile(ProfileUpdateDto profileUpdateDto) {
         this.userEmail = profileUpdateDto.getUserEmail();
+        this.userPassword = profileUpdateDto.getUserPassword();
         this.userNick = profileUpdateDto.getUserNick();
         this.myContent = profileUpdateDto.getMyContent();
     }
