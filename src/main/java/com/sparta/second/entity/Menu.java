@@ -37,8 +37,7 @@ public class Menu extends TimeStamped{
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    @ManyToOne
-    private Order order;
+
 
     public Menu(MenuRequestDto menuRequestDto,Shop shop){
         this.menuTitle = menuRequestDto.getMenuTitle();
