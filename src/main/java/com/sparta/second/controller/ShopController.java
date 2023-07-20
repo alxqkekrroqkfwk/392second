@@ -50,6 +50,7 @@ public class ShopController {
             return ResponseEntity.badRequest().body(new MsgResponseDto("가게 수정 실패", HttpStatus.BAD_REQUEST.value()));
         }
     }
+
     @DeleteMapping("/shop/{shop_id}")
     public ResponseEntity<MsgResponseDto> deleteShop (@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long shop_id){
         try {
