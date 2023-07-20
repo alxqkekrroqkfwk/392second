@@ -21,8 +21,8 @@ public class FollowController {
 //        return Response.success(boardService.updateOfFavoriteBoard(id, member));
 //    }
     @PostMapping("/shop/{id}/follow")
-    public ResponseEntity<MsgResponseDto> followshop(@PathVariable Long shop_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        followService.followShop(shop_id, userDetails.getUser());
+    public ResponseEntity<MsgResponseDto> followshop(@PathVariable Long shop_id) {
+        followService.followShop(shop_id);
         return ResponseEntity.ok().body(new MsgResponseDto("메뉴판 작성 성공", HttpStatus.OK.value()));
     }
 }
