@@ -11,12 +11,12 @@ import com.sparta.second.repository.ReviewLikeRepository;
 import com.sparta.second.repository.ReviewRepository;
 import com.sparta.second.repository.ShopRepository;
 import com.sparta.second.security.UserDetailsImpl;
-import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.stream.Collectors;
 
@@ -89,4 +89,16 @@ public class ReviewService {
         }
     }
 
+
+    // 리뷰에 좋아요 삭제
+    @Transactional
+    public void deleteLike(Long reviewId, User user) {
+        Review review = findReview(reviewId);
+        Optional<ReviewLike> reviewLike = reviewLikeRepository.findByUserAndReview(user, review);
+        if(reviewLike.isPresent()){
+            reviewLikeRepository.delete(reviewLike.get());
+        } else{
+            throw new IllegalArgumentException("좋아요한 댓글이 아닙니다.");
+        }
+    }
 }

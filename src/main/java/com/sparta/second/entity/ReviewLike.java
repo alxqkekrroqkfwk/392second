@@ -9,21 +9,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "review_like")
-public class ReviewLike extends TimeStamped {
+public class ReviewLike extends TimeStamped{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name="user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "review_id")
+    @JoinColumn(name="review_id")
     private Review review;
 
-    public ReviewLike(User user, Review review) {
+    public ReviewLike(User user, Review review){
         this.user = user;
         this.review = review;
     }
