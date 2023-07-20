@@ -9,6 +9,7 @@ import java.net.URL;
 @Setter
 public class ShopRequestDto {
 
+    private String UserName;
     private String category;
     private String shopName;
     private String shopContent;
