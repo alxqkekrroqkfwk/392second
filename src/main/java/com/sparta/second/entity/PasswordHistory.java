@@ -21,9 +21,9 @@ public class PasswordHistory extends TimeStamped{
     @Column(nullable = false)
     private String userPassword;
 
-//    public PasswordHistory(User user, String userPassword) {
-//        this.user = user;
-//        this.userPassword = userPassword;
-//    }
-    // PasswordHistory 엔티티 클래스는 유저의 비밀번호 변경 이력을 저장
+    public PasswordHistory(User user, String userPassword) {
+        this.user = user;
+        this.userPassword = userPassword;
+    }
+     // PasswordHistory 엔티티 클래스는 유저의 비밀번호 변경 이력을 저장
 }

@@ -37,7 +37,7 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public ProfileUpdateDto detailProfile (@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public UserResponseDto detailProfile (@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return userService.detailProfile(userDetails);
     }
 

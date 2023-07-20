@@ -11,6 +11,7 @@ import lombok.Setter;
 public class ProfileUpdateDto {
     private String userEmail;
     private String userPassword;
+    private String changePassword;
     private String userNick;
     private String myContent;
 

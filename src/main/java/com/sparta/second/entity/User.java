@@ -57,14 +57,14 @@ public class User {
     public User(String username, String password, String email, String Nick, UserRoleEnum role) {
     this.userName = username;
     this.userPassword = password;
-    this.userNick = email;
-    this.userEmail = Nick;
+    this.userNick = Nick;
+    this.userEmail = email;
     this.role = role;
 }
 
     public void updateProfile(ProfileUpdateDto profileUpdateDto) {
         this.userEmail = profileUpdateDto.getUserEmail();
-        this.userPassword = profileUpdateDto.getUserPassword();
+        this.userPassword = profileUpdateDto.getChangePassword();
         this.userNick = profileUpdateDto.getUserNick();
         this.myContent = profileUpdateDto.getMyContent();
     }
