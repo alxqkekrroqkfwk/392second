@@ -16,9 +16,9 @@ public class ShopResponseDto {
 
     public ShopResponseDto(Shop shop) {
         this.shopId = shop.getShopId();
-        this.category = shop.getCategory();
+//        this.category = shop.getCategory();
         this.shopName = shop.getShopName();
         this.shopContent = shop.getShopContent();
-        this.shopImage = shop.getShopImage();
+//        this.shopImage = shop.getShopImage();
     }
 }

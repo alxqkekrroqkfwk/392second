@@ -5,6 +5,7 @@ import com.sparta.second.dto.ProfileUpdateDto;
 import com.sparta.second.dto.UserRequestDto;
 import com.sparta.second.dto.UserRoleEnum;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.Order;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,8 +50,8 @@ public class User {
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<Shop> shops;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private List<Order> orders;
+//    @OneToMany(mappedBy = "user", orphanRemoval = true)
+//    private List<Order> orders;
 
 
     public User(String username, String password, String email, String Nick, UserRoleEnum role) {
