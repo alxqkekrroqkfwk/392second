@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.RejectedExecutionException;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/{shop_id}")
 @RequiredArgsConstructor
 public class MenuController {
 
@@ -39,8 +39,8 @@ public class MenuController {
 
     // 가게 메뉴판 작성
     @PostMapping("/menu")
-    public ResponseEntity<MsgResponseDto> createMenu(@RequestBody MenuRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        menuService.createMenu(requestDto, userDetails.getUser());
+    public ResponseEntity<MsgResponseDto> createMenu(@PathVariable Long shop_id,@RequestBody MenuRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        menuService.createMenu(shop_id ,requestDto, userDetails.getUser());
         return ResponseEntity.ok().body(new MsgResponseDto("메뉴판 작성 성공", HttpStatus.OK.value()));
     }
 
