@@ -23,14 +23,14 @@ public class Review extends TimeStamped {
     @Column
     private URL ImageUrl;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    @OneToMany(mappedBy = "Review", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "review", orphanRemoval = true)
     private List<ReviewLike> reviewLikes = new ArrayList<>();
 
     public Review(User user , ReviewRequestDto reviewRequestDto,Shop shop) {

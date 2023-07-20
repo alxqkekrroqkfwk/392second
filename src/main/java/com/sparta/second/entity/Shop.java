@@ -38,21 +38,19 @@ public class Shop extends TimeStamped{
     private List<Review> reviews;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id")
     private User user;
 
 
     public Shop(ShopRequestDto requestDto, User user) {
         this.shopName = requestDto.getShopName();
         this.shopContent = requestDto.getShopContent();
-        this.userName = requestDto.getUserName();
         this.user = user;
     }
 
     public void update(ShopRequestDto requestDto) {
         this.shopName = requestDto.getShopName();
         this.shopContent = requestDto.getShopContent();
-        this.userName = requestDto.getUserName();
     }
 
 
