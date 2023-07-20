@@ -1,14 +1,9 @@
 package com.sparta.second.service;
 
 
-import com.sparta.second.dto.LoginRequestDto;
-import com.sparta.second.dto.ProfileUpdateDto;
-import com.sparta.second.dto.SignupRequestDto;
-import com.sparta.second.dto.UserRoleEnum;
-import com.sparta.second.entity.PasswordHistory;
+import com.sparta.second.dto.*;
 import com.sparta.second.entity.User;
 import com.sparta.second.jwt.JwtUtil;
-import com.sparta.second.repository.PasswordHistoryRepository;
 import com.sparta.second.repository.UserRepository;
 import com.sparta.second.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 
 @Service
@@ -27,7 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-    private final PasswordHistoryRepository passwordHistoryRepository;
+
 
     // 회원가입
     public void signup(SignupRequestDto requestDto) {
