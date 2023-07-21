@@ -40,6 +40,8 @@ public class UserService {
 
         User user = new User(username, password,email, Nick, role);
         userRepository.save(user);
+
+        passwordHistoryRepository.save(new PasswordHistory(user, password));
     }
 
     public UserResponseDto detailProfile (UserDetailsImpl userDetails) {
