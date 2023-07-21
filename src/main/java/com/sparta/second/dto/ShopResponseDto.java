@@ -12,11 +12,10 @@ public class ShopResponseDto {
     private String category;
     private String shopName;
     private String shopContent;
-    private URL shopImage;
+    private String shopImage;
 
     public ShopResponseDto(Shop shop) {
         this.shopId = shop.getShopId();
-        this.category = shop.getCategory();
         this.shopName = shop.getShopName();
         this.shopContent = shop.getShopContent();
         this.shopImage = shop.getShopImage();

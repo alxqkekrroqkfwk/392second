@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,31 +29,27 @@ public class Shop extends TimeStamped{
     @Column(name = "shopContent", nullable = false, length = 500)
     private String shopContent;
 
-    @Column(name = "userName")
-    private String userName;
+    @Column
+    private String shopImage;
 
-    @OneToMany(mappedBy = "shop", orphanRemoval = true)
-    private List<Menu> menus;
-
-    @OneToMany(mappedBy = "shop", orphanRemoval = true)
-    private List<Review> reviews;
+//    @OneToMany(mappedBy = "shop", orphanRemoval = true)
+//    private List<Menu> menus;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-
     public Shop(ShopRequestDto requestDto, User user) {
-        this.shopName = requestDto.getShopName();
         this.shopContent = requestDto.getShopContent();
-        this.userName = requestDto.getUserName();
+        this.shopName = requestDto.getShopName();
+        this.shopImage = requestDto.getShopImage();
         this.user = user;
     }
 
     public void update(ShopRequestDto requestDto) {
-        this.shopName = requestDto.getShopName();
         this.shopContent = requestDto.getShopContent();
-        this.userName = requestDto.getUserName();
+        this.shopName = requestDto.getShopName();
+        this.shopImage = requestDto.getShopImage();
     }
 
 }

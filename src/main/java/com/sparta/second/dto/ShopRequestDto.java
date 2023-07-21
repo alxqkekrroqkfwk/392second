@@ -12,5 +12,5 @@ public class ShopRequestDto {
     private String category;
     private String shopName;
     private String shopContent;
-    private URL shopImage;
+    private String  shopImage;
 }
