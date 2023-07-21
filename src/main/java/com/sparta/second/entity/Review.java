@@ -4,9 +4,12 @@ import com.sparta.second.dto.ReviewRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -24,13 +27,14 @@ public class Review extends TimeStamped {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @ManyToOne
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
+    @OneToOne
+    @JoinColumn(name = "menu_id")
+    private Order order;
 
-    public Review(User user , ReviewRequestDto reviewRequestDto,Shop shop) {
+
+    public Review(User user , ReviewRequestDto reviewRequestDto) {
         this.user = user;
-        this.shop = shop;
+
         this.content = reviewRequestDto.getContent();
         this.ImageUrl = reviewRequestDto.getImageUrl();
     }

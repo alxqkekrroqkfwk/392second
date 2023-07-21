@@ -4,15 +4,16 @@ import com.sparta.second.dto.ReviewListResponseDto;
 import com.sparta.second.dto.ReviewRequestDto;
 import com.sparta.second.dto.ReviewResponseDto;
 import com.sparta.second.entity.Review;
-import com.sparta.second.entity.Shop;
 import com.sparta.second.entity.User;
 import com.sparta.second.repository.ReviewRepository;
-import com.sparta.second.repository.ShopRepository;
 import com.sparta.second.security.UserDetailsImpl;
+import com.sun.jdi.request.DuplicateRequestException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.stream.Collectors;
 
@@ -21,11 +22,13 @@ import java.util.stream.Collectors;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final ShopRepository shopRepository;
+    private final ShopService shopService;
     public void createReview(UserDetailsImpl userDetails, ReviewRequestDto reviewRequestDto) {
-        Shop shop = shopRepository.findById(reviewRequestDto.getShopId()).orElseThrow(() -> new RuntimeException());
+//        Shop shop = shopService.findShop(shop_id);
 
-        Review review = new Review(userDetails.getUser(),reviewRequestDto,shop);
+
+
+        Review review = new Review(userDetails.getUser(),reviewRequestDto);
 
         reviewRepository.save(review);
     }
@@ -45,6 +48,7 @@ public class ReviewService {
         return new ReviewListResponseDto(reviewList);
     }
 
+    @Transactional
     public void update(User user, Long reviewId, ReviewRequestDto reviewRequestDto) {
         Review review = findReview(reviewId);
 
@@ -56,6 +60,7 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
+    @Transactional
     public void delete(User user,Long reviewId) {
         // 해당 포스트가 DB에 존재하는지 확인
         Review review = findReview(reviewId);

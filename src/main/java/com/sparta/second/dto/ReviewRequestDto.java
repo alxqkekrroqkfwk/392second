@@ -11,5 +11,4 @@ import java.net.URL;
 public class ReviewRequestDto {
     private String content;
     private URL imageUrl;
-    private Long shopId;
 }
