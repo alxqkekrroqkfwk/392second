@@ -92,7 +92,6 @@ public class UserService {
         passwordHistoryRepository.save(new PasswordHistory(userDetails.getUser(), profileUpdateDto.getChangePassword()));
 
         return profileUpdateDto;
-        // 수정완료  MsgResponseDto로 반환해야 함
     }
 
 

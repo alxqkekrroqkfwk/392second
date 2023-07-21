@@ -49,8 +49,6 @@ public class UserController {
         userService.updateProfile(profileUpdateDto, userDetails);
 
         return ResponseEntity.ok().body(new MsgResponseDto("프로필 수정 성공", HttpStatus.CREATED.value()));
-        // msg로 반환하기로 바꾸기!
-        // MsgResponseDto를 ProfileUpdateDto로 감싼다
     }
 
     //프로필업데이트디티오 -> 로그인과 다른
