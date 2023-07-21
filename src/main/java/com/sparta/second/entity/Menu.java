@@ -12,8 +12,7 @@ import java.net.URL;
 
 @Entity
 @Getter
-@Setter
-@Table(name = "menus")
+@Setter@Table(name = "menus")
 @NoArgsConstructor
 public class Menu extends TimeStamped{
 
@@ -34,16 +33,16 @@ public class Menu extends TimeStamped{
     private URL menuImage;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
+    private Order order;
 
     @ManyToOne
-    private Order order;
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
 
     public Menu(MenuRequestDto menuRequestDto,Shop shop){
         this.menuTitle = menuRequestDto.getMenuTitle();
         this.menuCategory = menuRequestDto.getMenuCategory();
-        this.menuContent = menuRequestDto.getContent();
+        this.menuContent = menuRequestDto.getMenuContent();
         this.menuImage = menuRequestDto.getMenuImage();
         this.shop = shop;
     }
@@ -51,7 +50,7 @@ public class Menu extends TimeStamped{
     public void update(MenuRequestDto menuRequestDto) {
         this.menuTitle = menuRequestDto.getMenuTitle();
         this.menuCategory = menuRequestDto.getMenuCategory();
-        this.menuContent = menuRequestDto.getContent();
+        this.menuContent = menuRequestDto.getMenuContent();
         this.menuImage = menuRequestDto.getMenuImage();
     }
 }

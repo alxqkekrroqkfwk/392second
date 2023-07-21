@@ -46,11 +46,11 @@ public class User {
     @Column
     private URL myImage;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private List<Shop> shops;
-
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private List<Order> orders;
+//    @OneToMany(mappedBy = "user", orphanRemoval = true)
+//    private List<Shop> shops;
+//
+//    @OneToMany(mappedBy = "user", orphanRemoval = true)
+//    private List<Order> orders;
 
 
     public User(String username, String password, String email, String Nick, UserRoleEnum role) {

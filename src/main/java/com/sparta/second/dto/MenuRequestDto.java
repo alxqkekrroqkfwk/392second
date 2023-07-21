@@ -9,6 +9,6 @@ public class MenuRequestDto {
 
     private String menuTitle;
     private String menuCategory;
-    private String content;
+    private String menuContent;
     private URL menuImage;
 }
