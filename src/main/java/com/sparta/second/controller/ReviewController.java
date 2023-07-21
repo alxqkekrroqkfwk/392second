@@ -51,7 +51,7 @@ public class ReviewController {
         return ResponseEntity.ok().body(new MsgResponseDto("리뷰 삭제 성공",HttpStatus.OK.value()));
     }
 
-    @PostMapping("/comments/{id}/like")
+    @PostMapping("api/review/{review_Id}/like")
     public ResponseEntity<MsgResponseDto> createLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) {
         try {
             reviewService.createLike(id, userDetails.getUser());

@@ -50,6 +50,9 @@ public class User {
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<Shop> shops;
 
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<ReviewLike> reviewLikes;
+
 //    @OneToMany(mappedBy = "user", orphanRemoval = true)
 //    private List<Order> orders;
 
