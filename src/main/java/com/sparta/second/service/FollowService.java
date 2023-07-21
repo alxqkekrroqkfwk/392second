@@ -30,8 +30,7 @@ public class FollowService {
                 new IllegalArgumentException("선택한 유저가 존재하지 않습니다."));
 
         if(followRepository.findByShopAndUser(shop, user) == null) {
-            // 팔로우를 누른적 없다면 Favorite 생성 후, 즐겨찾기 처리
-            Follow follow = new Follow(shop, user); // true 처리
+            Follow follow = new Follow(shop, user);
             followRepository.save(follow);
             return "팔로우 완료";
         } else {

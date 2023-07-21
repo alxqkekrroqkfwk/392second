@@ -23,6 +23,6 @@ public class FollowController {
     @PostMapping("/shop/{id}/follow")
     public ResponseEntity<MsgResponseDto> followshop(@PathVariable Long shop_id) {
         followService.followShop(shop_id);
-        return ResponseEntity.ok().body(new MsgResponseDto("메뉴판 작성 성공", HttpStatus.OK.value()));
+        return ResponseEntity.ok().body(new MsgResponseDto("즐겨찾기 성공", HttpStatus.OK.value()));
     }
 }
