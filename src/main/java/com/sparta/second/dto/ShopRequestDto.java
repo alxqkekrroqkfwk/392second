@@ -1,15 +1,16 @@
 package com.sparta.second.dto;
 
 
+import com.sparta.second.entity.ShopCategory;
 import lombok.Getter;
 import lombok.Setter;
-import java.net.URL;
 
 @Getter
 @Setter
-public class ShopRequestDto {
+public class
+ShopRequestDto {
 
-    private String category;
+    private ShopCategory shopCategory;
     private String shopName;
     private String shopContent;
     private String  shopImage;

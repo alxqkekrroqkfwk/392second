@@ -1,5 +1,6 @@
 package com.sparta.second.dto;
 
+import com.sparta.second.entity.Order;
 import com.sparta.second.entity.Review;
 import com.sparta.second.entity.User;
 import lombok.Getter;

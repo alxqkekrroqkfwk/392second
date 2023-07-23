@@ -21,7 +21,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long userId;
 
     @Column(nullable = false,unique = true)
     private String userName;
@@ -46,18 +46,21 @@ public class User {
     @Column
     private URL myImage;
 
+    @Column
+    private int money;
+
 //    @OneToMany(mappedBy = "user", orphanRemoval = true)
 //    private List<Shop> shops;
 //
-//    @OneToMany(mappedBy = "user", orphanRemoval = true)
-//    private List<Order> orders;
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Order> orders;
 
 
     public User(String username, String password, String email, String Nick, UserRoleEnum role) {
     this.userName = username;
     this.userPassword = password;
-    this.userNick = email;
-    this.userEmail = Nick;
+    this.userNick = Nick;
+    this.userEmail = email;
     this.role = role;
 }
 

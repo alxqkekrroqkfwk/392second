@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/api/{shop_id}")
+@RequestMapping("/api/{orderId}")
 public class ReviewController {
 
     private final ReviewService reviewService;
 
     @PostMapping("/review")
-    public ResponseEntity<MsgResponseDto> createReview(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody ReviewRequestDto reviewRequestDto) {
-        reviewService.createReview(userDetails,reviewRequestDto);
-        return ResponseEntity.ok().body(new MsgResponseDto("리뷰 생성 성공 !", HttpStatus.OK.value()));
+    public ResponseEntity<MsgResponseDto> createReview(@PathVariable Long orderId,@AuthenticationPrincipal UserDetailsImpl userDetails ,@RequestBody ReviewRequestDto reviewRequestDto) {
+        reviewService.createReview(orderId,userDetails.getUser(),reviewRequestDto);
+        return ResponseEntity.ok().body(new MsgResponseDto("리뷰 생성 완료 !", HttpStatus.OK.value()));
     }
 
     @GetMapping("/review/{review_Id}")
@@ -40,15 +40,15 @@ public class ReviewController {
         return ResponseEntity.ok().body(reviewListResponseDto);
     }
     @Transactional
-    @PutMapping("/review/{review_Id}")
-    public ResponseEntity<MsgResponseDto> update(@AuthenticationPrincipal UserDetailsImpl userDetails,@PathVariable Long review_Id,@RequestBody ReviewRequestDto reviewRequestDto) {
-        reviewService.update(userDetails.getUser(), review_Id,reviewRequestDto);
-        return ResponseEntity.ok().body(new MsgResponseDto("리뷰 수정 완료", HttpStatus.OK.value()));
+    @PutMapping("/review/{reviewId}")
+    public ResponseEntity<MsgResponseDto> update(@AuthenticationPrincipal UserDetailsImpl userDetails,@PathVariable Long reviewId,@RequestBody ReviewRequestDto reviewRequestDto) {
+        reviewService.update(userDetails.getUser(), reviewId,reviewRequestDto);
+        return ResponseEntity.ok().body(new MsgResponseDto("리뷰 수정 완료 !", HttpStatus.OK.value()));
     }
 
-    @DeleteMapping("/review/{review_Id}")
-    public ResponseEntity<MsgResponseDto> delete(@AuthenticationPrincipal UserDetailsImpl userDetails,@PathVariable Long review_Id) {
-        reviewService.delete(userDetails.getUser(),review_Id);
-        return ResponseEntity.ok().body(new MsgResponseDto("리뷰 삭제 성공",HttpStatus.OK.value()));
+    @DeleteMapping("/review/{reviewId}")
+    public ResponseEntity<MsgResponseDto> delete(@AuthenticationPrincipal UserDetailsImpl userDetails,@PathVariable Long reviewId) {
+        reviewService.delete(userDetails.getUser(),reviewId);
+        return ResponseEntity.ok().body(new MsgResponseDto("리뷰 삭제 완료 !",HttpStatus.OK.value()));
     }
 }

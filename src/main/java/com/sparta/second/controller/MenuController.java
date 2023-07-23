@@ -1,10 +1,9 @@
 package com.sparta.second.controller;
 
-import com.sparta.second.dto.MenuListResponseDto;
-import com.sparta.second.dto.MenuRequestDto;
-import com.sparta.second.dto.MenuResponseDto;
-import com.sparta.second.dto.MsgResponseDto;
+import com.sparta.second.dto.*;
+import com.sparta.second.entity.MenuCategory;
 import com.sparta.second.entity.Shop;
+import com.sparta.second.entity.ShopCategory;
 import com.sparta.second.entity.User;
 import com.sparta.second.security.UserDetailsImpl;
 import com.sparta.second.service.MenuService;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.RejectedExecutionException;
 
 @RestController
-@RequestMapping("/api/{shop_id}")
+@RequestMapping("/api/{shopId}")
 @RequiredArgsConstructor
 public class MenuController {
 
@@ -27,40 +26,48 @@ public class MenuController {
     @GetMapping("/menus")
     public ResponseEntity<MenuListResponseDto> getMenus() {
         MenuListResponseDto menuListResponseDto = menuService.getMenus();
+
+        System.out.println("ddddddd");
         return ResponseEntity.ok().body(menuListResponseDto);
     }
 
     //해당 가게 메뉴판 개별 조회
-    @GetMapping("/menu/{menu_id}")
-    public ResponseEntity<MenuResponseDto> getMenu(@PathVariable Long menu_id) {
-        MenuResponseDto menuResponseDto = menuService.getMenu(menu_id);
+    @GetMapping("/menu/{menuId}")
+    public ResponseEntity<MenuResponseDto> getMenu(@PathVariable Long menuId) {
+        MenuResponseDto menuResponseDto = menuService.getMenu(menuId);
         return ResponseEntity.ok().body(menuResponseDto);
+    }
+
+    @GetMapping("/menu/category")
+    public ResponseEntity<MenuListResponseDto> getShopCategory(@PathVariable Long shopId ,@RequestParam MenuCategory menuCategory) {
+        MenuListResponseDto menuListResponseDto=menuService.getMenuCategory(shopId,menuCategory);
+        return ResponseEntity.ok().body(menuListResponseDto);
     }
 
     // 가게 메뉴판 작성
     @PostMapping("/menu")
-    public ResponseEntity<MsgResponseDto> createMenu(@PathVariable Long shop_id,@RequestBody MenuRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        menuService.createMenu(shop_id ,requestDto, userDetails.getUser());
-        return ResponseEntity.ok().body(new MsgResponseDto("메뉴판 작성 성공", HttpStatus.OK.value()));
+    public ResponseEntity<MsgResponseDto> createMenu(@PathVariable Long shopId,@RequestBody MenuRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        menuService.createMenu(shopId ,requestDto, userDetails.getUser());
+        return ResponseEntity.ok().body(new MsgResponseDto("메뉴판 작성 완료 !", HttpStatus.OK.value()));
     }
 
     //가게 메뉴판 수정
-    @PutMapping("/menu/{menu_id}")
-    public ResponseEntity<MsgResponseDto> updateMenu(@PathVariable Long menu_id, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody MenuRequestDto requestDto) {
+    @PutMapping("/menu/{menuId}")
+    public ResponseEntity<MsgResponseDto> updateMenu(@PathVariable Long menuId, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody MenuRequestDto requestDto) {
         try {
-            menuService.updateMenu(menu_id, requestDto, userDetails.getUser());
-            return ResponseEntity.ok().body(new MsgResponseDto("메뉴판 수정 성공.", HttpStatus.OK.value()));
+            menuService.updateMenu(menuId, requestDto, userDetails.getUser());
+            return ResponseEntity.ok().body(new MsgResponseDto("메뉴판 수정 완료 !", HttpStatus.OK.value()));
         } catch (RejectedExecutionException e) {
             return ResponseEntity.badRequest().body(new MsgResponseDto("작성자만 수정할 수 있습니다.", HttpStatus.BAD_REQUEST.value()));
         }
     }
 
     //가게 메뉴판 삭제
-    @DeleteMapping("/menu/{menu_id}")
-    public ResponseEntity<MsgResponseDto> deleteMenu(@PathVariable Long menu_id, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody MenuRequestDto requestDto) {
+    @DeleteMapping("/menu/{menuId}")
+    public ResponseEntity<MsgResponseDto> deleteMenu(@PathVariable Long menuId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            menuService.deleteMenu(menu_id, userDetails.getUser());
-            return ResponseEntity.ok().body(new MsgResponseDto("메뉴판 삭제 성공.", HttpStatus.OK.value()));
+            menuService.deleteMenu(menuId, userDetails.getUser());
+            return ResponseEntity.ok().body(new MsgResponseDto("메뉴판 삭제 완료 !", HttpStatus.OK.value()));
         } catch (RejectedExecutionException e) {
             return ResponseEntity.badRequest().body(new MsgResponseDto("작성자만 삭제할 수 있습니다.", HttpStatus.BAD_REQUEST.value()));
         }

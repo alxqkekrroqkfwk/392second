@@ -25,16 +25,16 @@ public class Review extends TimeStamped {
     @Column
     private URL ImageUrl;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
     @OneToOne
-    @JoinColumn(name = "menu_id")
+    @JoinColumn(name = "orderId")
     private Order order;
 
 
-    public Review(User user , ReviewRequestDto reviewRequestDto) {
+    public Review(User user ,Order order , ReviewRequestDto reviewRequestDto) {
         this.user = user;
-
+        this.order = order;
         this.content = reviewRequestDto.getContent();
         this.ImageUrl = reviewRequestDto.getImageUrl();
     }

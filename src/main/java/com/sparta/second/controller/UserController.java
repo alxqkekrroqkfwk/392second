@@ -54,6 +54,13 @@ public class UserController {
         // MsgResponseDto를 ProfileUpdateDto로 감싼다
     }
 
+    @PutMapping("/money")
+    public ResponseEntity<MsgResponseDto> moneyUpdate(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody MoneyRquestDto moneyRquestDto) {
+        userService.moneyUpdate(userDetails.getUser(),moneyRquestDto);
+        return ResponseEntity.ok().body(new MsgResponseDto("돈 충전 완료 !",HttpStatus.OK.value()));
+    }
+
+
     //프로필업데이트디티오 -> 로그인과 다른
     //User = profile 필요 정보가 같음
 

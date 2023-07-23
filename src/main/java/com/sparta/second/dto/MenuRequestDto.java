@@ -1,5 +1,6 @@
 package com.sparta.second.dto;
 
+import com.sparta.second.entity.MenuCategory;
 import lombok.Getter;
 import lombok.Setter;
 import java.net.URL;
@@ -8,7 +9,8 @@ import java.net.URL;
 public class MenuRequestDto {
 
     private String menuTitle;
-    private String menuCategory;
+    private int menuPrice;
+    private MenuCategory menuCategory;
     private String menuContent;
     private URL menuImage;
 }

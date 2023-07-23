@@ -4,15 +4,16 @@ import com.sparta.second.dto.ShopListResponseDto;
 import com.sparta.second.dto.ShopRequestDto;
 import com.sparta.second.dto.ShopResponseDto;
 import com.sparta.second.entity.Shop;
+import com.sparta.second.entity.ShopCategory;
 import com.sparta.second.entity.User;
 import com.sparta.second.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.*;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,12 @@ public class ShopService {
         return new ShopResponseDto(shop);
     }
 
-    @Transactional
+    public ShopListResponseDto getShopCategory(ShopCategory shopCategory) {
+        List<ShopResponseDto> shopResponseDtoList =shopRepository.findByShopCategory(shopCategory)
+                .stream().map(ShopResponseDto::new).collect(Collectors.toList());
+        return new ShopListResponseDto(shopResponseDtoList);
+    }
+
     public void createShop(ShopRequestDto requestDto, User user) {
         shopRepository.save(new Shop(requestDto, user));
     }
@@ -61,4 +67,6 @@ public class ShopService {
         return shopRepository.findById(shopId).orElseThrow(() ->
                 new IllegalArgumentException("가게 조회 실패"));
     }
+
+
 }

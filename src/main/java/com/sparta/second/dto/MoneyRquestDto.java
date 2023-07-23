@@ -3,6 +3,6 @@ package com.sparta.second.dto;
 import lombok.Getter;
 
 @Getter
-public class OrderRequestDto {
-    private String content;
+public class MoneyRquestDto {
+    private int money;
 }

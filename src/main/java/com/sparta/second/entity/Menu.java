@@ -1,12 +1,12 @@
 package com.sparta.second.entity;
 
 import com.sparta.second.dto.MenuRequestDto;
-import com.sparta.second.dto.ShopRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.net.URL;
 
@@ -18,13 +18,17 @@ public class Menu extends TimeStamped{
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long menu_id;
+    private Long menuId;
 
     @Column(name = "menuTitle", nullable = false)
     private String menuTitle;
 
+    @Column(name = "menuPrice", nullable = false)
+    private int menuPreice;
+
     @Column(name = "menuCategory", nullable = false)
-    private String menuCategory;
+    @Enumerated(EnumType.STRING)
+    private MenuCategory menuCategory;
 
     @Column(name = "menuContent", nullable = false, length = 500)
     private String menuContent;
@@ -33,14 +37,15 @@ public class Menu extends TimeStamped{
     private URL menuImage;
 
     @ManyToOne
-    private Order order;
-
-    @ManyToOne
-    @JoinColumn(name = "shop_id")
+    @JoinColumn(name = "shopId")
     private Shop shop;
+
+    @OneToMany(mappedBy = "menu", orphanRemoval = true)
+    private List<OrderMenu> order_menuList = new ArrayList<>();
 
     public Menu(MenuRequestDto menuRequestDto,Shop shop){
         this.menuTitle = menuRequestDto.getMenuTitle();
+        this.menuPreice = menuRequestDto.getMenuPrice();
         this.menuCategory = menuRequestDto.getMenuCategory();
         this.menuContent = menuRequestDto.getMenuContent();
         this.menuImage = menuRequestDto.getMenuImage();
@@ -49,6 +54,7 @@ public class Menu extends TimeStamped{
 
     public void update(MenuRequestDto menuRequestDto) {
         this.menuTitle = menuRequestDto.getMenuTitle();
+        this.menuPreice = menuRequestDto.getMenuPrice();
         this.menuCategory = menuRequestDto.getMenuCategory();
         this.menuContent = menuRequestDto.getMenuContent();
         this.menuImage = menuRequestDto.getMenuImage();

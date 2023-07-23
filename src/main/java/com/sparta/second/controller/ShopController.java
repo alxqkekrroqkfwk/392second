@@ -1,9 +1,7 @@
 package com.sparta.second.controller;
 
-import com.sparta.second.dto.MsgResponseDto;
-import com.sparta.second.dto.ShopListResponseDto;
-import com.sparta.second.dto.ShopRequestDto;
-import com.sparta.second.dto.ShopResponseDto;
+import com.sparta.second.dto.*;
+import com.sparta.second.entity.ShopCategory;
 import com.sparta.second.security.UserDetailsImpl;
 import com.sparta.second.service.ShopService;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +26,17 @@ public class ShopController {
         return ResponseEntity.ok().body(shopListResponseDto);
     }
 
-    @GetMapping("/shop/{shop_id}")
-    public ResponseEntity<ShopResponseDto> getShop(@PathVariable Long shop_id){
-        ShopResponseDto responseDto = shopService.getShop(shop_id);
+    @GetMapping("/shop/{shopId}")
+    public ResponseEntity<ShopResponseDto> getShop(@PathVariable Long shopId){
+        ShopResponseDto responseDto = shopService.getShop(shopId);
         return ResponseEntity.ok().body(responseDto);
     }
 
+    @GetMapping("/shop/category")
+    public ResponseEntity<ShopListResponseDto> getShopCategory(@RequestParam ShopCategory shopCategory) {
+        ShopListResponseDto shopListResponseDto=shopService.getShopCategory(shopCategory);
+        return ResponseEntity.ok().body(shopListResponseDto);
+    }
 
     @PostMapping("/shop")
     public ResponseEntity<MsgResponseDto> createShop(@RequestBody ShopRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){

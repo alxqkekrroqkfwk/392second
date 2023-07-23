@@ -51,7 +51,7 @@ public class UserService {
         }
         // 수정 페이지로 넘어가기 전 비밀번호 확인
 
-        User targetUser = userRepository.findById(userDetails.getUser().getUser_id()).orElseThrow(() -> new Exception ());
+        User targetUser = userRepository.findById(userDetails.getUser().getUserId()).orElseThrow(() -> new Exception ());
         // targetUser는 User클래스의 객체이다
         // userRepository에서 userId로 user를 한 개 찾아온다
         // userId는 현재 로그인 한 Id를 찾아와야 함으로 userDetails를 실행시킨다
@@ -68,7 +68,7 @@ public class UserService {
 
     public void login(LoginRequestDto loginRequestDto, HttpServletResponse res) {
         String username = loginRequestDto.getUserName();
-        String password = loginRequestDto.getPassword();
+        String password = loginRequestDto.getUserPassword();
 
         User user = userRepository.findByUserName(username).orElseThrow(
                 () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
@@ -80,5 +80,12 @@ public class UserService {
 
         String token = jwtUtil.createToken(user.getUserName());
         jwtUtil.addJwtToCookie(token,res);
+    }
+    @Transactional
+    public void moneyUpdate(User user ,MoneyRquestDto moneyRquestDto) {
+        User user1 = userRepository.findByUserName(user.getUserName()).orElseThrow(
+                () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
+        );
+        user1.setMoney(moneyRquestDto.getMoney());
     }
 }

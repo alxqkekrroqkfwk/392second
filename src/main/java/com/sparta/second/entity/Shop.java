@@ -2,13 +2,10 @@ package com.sparta.second.entity;
 
 import com.sparta.second.dto.ShopRequestDto;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -30,19 +27,24 @@ public class Shop extends TimeStamped{
     private String shopContent;
 
     @Column
+    @Enumerated(EnumType.STRING)
+    private ShopCategory shopCategory;
+
+    @Column
     private String shopImage;
 
-//    @OneToMany(mappedBy = "shop", orphanRemoval = true)
-//    private List<Menu> menus;
+    @OneToMany(mappedBy = "shop", orphanRemoval = true)
+    private List<Menu> menus;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     public Shop(ShopRequestDto requestDto, User user) {
         this.shopContent = requestDto.getShopContent();
         this.shopName = requestDto.getShopName();
         this.shopImage = requestDto.getShopImage();
+        this.shopCategory = requestDto.getShopCategory();
         this.user = user;
     }
 
@@ -50,6 +52,7 @@ public class Shop extends TimeStamped{
         this.shopContent = requestDto.getShopContent();
         this.shopName = requestDto.getShopName();
         this.shopImage = requestDto.getShopImage();
+        this.shopCategory = requestDto.getShopCategory();
     }
 
 }

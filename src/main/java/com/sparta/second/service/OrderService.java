@@ -5,8 +5,11 @@ import com.sparta.second.dto.OrderListResponseDto;
 import com.sparta.second.dto.OrderRequestDto;
 import com.sparta.second.dto.OrderResponseDto;
 import com.sparta.second.entity.Order;
+import com.sparta.second.entity.OrderMenu;
 import com.sparta.second.entity.User;
+import com.sparta.second.repository.OrderMenuRepository;
 import com.sparta.second.repository.OrderRepository;
+import com.sparta.second.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,12 +23,13 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderMenuRepository orderMenuRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void createOrder(User user, OrderRequestDto orderRequestDto) {
         Order order = new Order(orderRequestDto,user);
-        System.out.println(order.getUser().getUserName());
-        System.out.println(user.getUserName());
+
         if (!order.getUser().getUserName().equals(user.getUserName())) {
             throw new RejectedExecutionException();
         } else {
@@ -33,8 +37,24 @@ public class OrderService {
         }
     }
 
+    @Transactional
+    public void payment(User user) {
+        List<OrderMenu> orderMenuList = orderMenuRepository.findAllBy();
+        Order order = new Order(user,orderMenuList);
+        if (user.getMoney()<order.getTotal()) {
+            throw new RejectedExecutionException();
+        }
+        User user1 = userRepository.findByUserName(user.getUserName())
+                .orElseThrow( () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
+        );
+        user1.setMoney(user.getMoney()-order.getTotal());
+        orderRepository.save(order);
+    }
+
     public OrderResponseDto getOrder(Long orderId, User user) {
         Order order = findOrder(orderId);
+        List<OrderMenu> orderMenuList = orderMenuRepository.findAllBy();
+        order.setOrdermenuList(orderMenuList);
         if (!order.getUser().getUserName().equals(user.getUserName())) {
             throw new RejectedExecutionException();
         }else {

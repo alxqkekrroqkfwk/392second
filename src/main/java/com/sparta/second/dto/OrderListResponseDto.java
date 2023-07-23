@@ -1,7 +1,9 @@
 package com.sparta.second.dto;
 
-import java.util.List;
+import lombok.Getter;
 
+import java.util.List;
+@Getter
 public class OrderListResponseDto {
 
     List<OrderResponseDto> orderList;
