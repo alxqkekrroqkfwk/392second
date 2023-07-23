@@ -7,6 +7,7 @@ import com.sparta.second.entity.ShopCategory;
 import com.sparta.second.entity.User;
 import com.sparta.second.security.UserDetailsImpl;
 import com.sparta.second.service.MenuService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +53,7 @@ public class MenuController {
     }
 
     //가게 메뉴판 수정
+    @Transactional
     @PutMapping("/menu/{menuId}")
     public ResponseEntity<MsgResponseDto> updateMenu(@PathVariable Long menuId, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody MenuRequestDto requestDto) {
         try {
@@ -63,6 +65,7 @@ public class MenuController {
     }
 
     //가게 메뉴판 삭제
+    @Transactional
     @DeleteMapping("/menu/{menuId}")
     public ResponseEntity<MsgResponseDto> deleteMenu(@PathVariable Long menuId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {

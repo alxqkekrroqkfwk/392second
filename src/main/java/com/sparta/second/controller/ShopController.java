@@ -4,6 +4,7 @@ import com.sparta.second.dto.*;
 import com.sparta.second.entity.ShopCategory;
 import com.sparta.second.security.UserDetailsImpl;
 import com.sparta.second.service.ShopService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,7 @@ public class ShopController {
         return ResponseEntity.ok().body(new MsgResponseDto("가게 생성 완료 !",HttpStatus.OK.value()));
     }
 
+    @Transactional
     @PutMapping("/shop/{shop_id}")
     public ResponseEntity<MsgResponseDto> updateShop(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long shop_id, @RequestBody ShopRequestDto requestDto) {
         try {
@@ -53,6 +55,7 @@ public class ShopController {
             return ResponseEntity.badRequest().body(new MsgResponseDto("가게 수정 실패", HttpStatus.BAD_REQUEST.value()));
         }
     }
+    @Transactional
     @DeleteMapping("/shop/{shop_id}")
     public ResponseEntity<MsgResponseDto> deleteShop (@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long shop_id){
         try {

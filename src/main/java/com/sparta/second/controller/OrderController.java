@@ -19,12 +19,6 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/order")
-    public ResponseEntity<MsgResponseDto> createOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody OrderRequestDto orderRequestDto) {
-        orderService.createOrder(userDetails.getUser(),orderRequestDto);
-        return ResponseEntity.ok().body(new MsgResponseDto("오더 생성 완료 !", HttpStatus.OK.value()));
-    }
-
     @PostMapping("/payment")
     public ResponseEntity<MsgResponseDto> payment(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -35,9 +29,9 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/order/{order_id}")
-    public ResponseEntity<OrderResponseDto> getOrder(@AuthenticationPrincipal UserDetailsImpl userDetails,@PathVariable Long order_id) {
-        OrderResponseDto orderResponseDto = orderService.getOrder(order_id,userDetails.getUser());
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<OrderResponseDto> getOrder(@AuthenticationPrincipal UserDetailsImpl userDetails,@PathVariable Long orderId) {
+        OrderResponseDto orderResponseDto = orderService.getOrder(orderId,userDetails.getUser());
         return ResponseEntity.ok().body(orderResponseDto);
     }
 
@@ -47,15 +41,16 @@ public class OrderController {
         return ResponseEntity.ok().body(orderListResponseDto);
     }
     @Transactional
-    @PutMapping("/order/{order_id}")
-    public ResponseEntity<MsgResponseDto> update(@PathVariable Long review_Id,@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody OrderRequestDto orderRequestDto) {
-        orderService.update(review_Id,userDetails.getUser(),orderRequestDto);
+    @PutMapping("/order/{orderId}")
+    public ResponseEntity<MsgResponseDto> update(@PathVariable Long orderId,@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody OrderRequestDto orderRequestDto) {
+        orderService.update(orderId,userDetails.getUser(),orderRequestDto);
         return ResponseEntity.ok().body(new MsgResponseDto("오더 수정 완료 !", HttpStatus.OK.value()));
     }
 
-    @DeleteMapping("/order/{order_id}")
-    public ResponseEntity<MsgResponseDto> delete(@PathVariable Long review_Id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        orderService.delete(review_Id,userDetails.getUser());
+    @Transactional
+    @DeleteMapping("/order/{orderId}")
+    public ResponseEntity<MsgResponseDto> delete(@PathVariable Long orderId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        orderService.delete(orderId,userDetails.getUser());
         return ResponseEntity.ok().body(new MsgResponseDto("오더 삭제 완료 !",HttpStatus.OK.value()));
     }
 }

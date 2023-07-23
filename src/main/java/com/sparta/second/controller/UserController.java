@@ -4,6 +4,7 @@ import com.sparta.second.dto.*;
 import com.sparta.second.security.UserDetailsImpl;
 import com.sparta.second.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,7 @@ public class UserController {
         return userService.detailProfile(userDetails);
     }
 
+    @Transactional
     @PutMapping("/profile")
     public ResponseEntity<MsgResponseDto> profileUpdateDto (@AuthenticationPrincipal UserDetailsImpl userDetails,
                                               @RequestBody ProfileUpdateDto profileUpdateDto,
@@ -54,6 +56,7 @@ public class UserController {
         // MsgResponseDto를 ProfileUpdateDto로 감싼다
     }
 
+    @Transactional
     @PutMapping("/money")
     public ResponseEntity<MsgResponseDto> moneyUpdate(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody MoneyRquestDto moneyRquestDto) {
         userService.moneyUpdate(userDetails.getUser(),moneyRquestDto);

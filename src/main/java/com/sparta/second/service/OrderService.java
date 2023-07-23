@@ -27,17 +27,6 @@ public class OrderService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void createOrder(User user, OrderRequestDto orderRequestDto) {
-        Order order = new Order(orderRequestDto,user);
-
-        if (!order.getUser().getUserName().equals(user.getUserName())) {
-            throw new RejectedExecutionException();
-        } else {
-            orderRepository.save(order);
-        }
-    }
-
-    @Transactional
     public void payment(User user) {
         List<OrderMenu> orderMenuList = orderMenuRepository.findAllBy();
         Order order = new Order(user,orderMenuList);
@@ -69,6 +58,7 @@ public class OrderService {
         return new OrderListResponseDto(orderList);
     }
 
+    @Transactional
     public void update(Long orderId,User user,OrderRequestDto orderRequestDto) {
          Order order = findOrder(orderId);
 
@@ -79,9 +69,10 @@ public class OrderService {
          }
     }
 
+    @Transactional
     public void delete(Long orderId,User user) {
         Order order = findOrder(orderId);
-        if (order.getUser().getUserName().equals(user.getUserName())) {
+        if (!order.getUser().getUserId().equals(user.getUserId())) {
             throw new RejectedExecutionException();
         }else {
             orderRepository.delete(order);
