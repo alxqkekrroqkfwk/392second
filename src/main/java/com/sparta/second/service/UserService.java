@@ -60,18 +60,17 @@ public class UserService {
         }
         // 프로필 수정 시 비밀번호를 한 번 더 입력받는 과정
 
-        List<PasswordHistory> passwordHistories = passwordHistoryRepository.findTop3ByUserOrderByCreatedAtDesc(userDetails.getUser());
+        List<PasswordHistory> passwordHistories = passwordHistoryRepository.findTop4ByUserOrderByCreatedAtDesc(userDetails.getUser());
         // 최근 3번 사용한 비밀번호 조회
 
-        if (passwordHistories.size() >= 3) {
-            for (int i = 0; i < passwordHistories.size(); i++) {
+            for (int i = 0; i <passwordHistories.size(); i++) {
                 PasswordHistory passwordHistory = passwordHistories.get(i);
                 // passwordHistories.get(i)를 통해 passwordHistories 리스트에서 i번째 인덱스에 위치한 PasswordHistory 객체를 가져옴
                 if (passwordEncoder.matches(profileUpdateDto.getChangePassword(), passwordHistory.getUserPassword()))
                     throw new IllegalArgumentException("최근 3번 사용한 비밀번호는 사용할 수 없습니다.");
                 // passwordHistory.getUserPassword()(암호화) 된 비밀번호가 userDetails.getPassword()(사용자가 입력한 비밀번호)와 같다면 throw를 보냄
             }
-        }
+
         // 최근 3번 사용한 비밀번호 제한하기
 
         profileUpdateDto.setChangePassword(passwordEncoder.encode(profileUpdateDto.getChangePassword()));
