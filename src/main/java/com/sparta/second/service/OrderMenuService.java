@@ -36,7 +36,7 @@ public class OrderMenuService {
     public OrderMenuResponseDto get(Long ordernemuId, User user) {
         OrderMenu orderMenu = findOrderMenu(ordernemuId);
 
-        if (!orderMenu.getUser().getUserName().equals(user.getUserName())) {
+        if (!orderMenu.getUser().getUserId().equals(user.getUserId())) {
             throw new RejectedExecutionException();
         }else {
             return new OrderMenuResponseDto(orderMenu);

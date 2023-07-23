@@ -44,7 +44,7 @@ public class OrderService {
         Order order = findOrder(orderId);
         List<OrderMenu> orderMenuList = orderMenuRepository.findAllBy();
         order.setOrdermenuList(orderMenuList);
-        if (!order.getUser().getUserName().equals(user.getUserName())) {
+        if (!order.getUser().getUserId().equals(user.getUserId())) {
             throw new RejectedExecutionException();
         }else {
             return new OrderResponseDto(order);
@@ -62,7 +62,7 @@ public class OrderService {
     public void update(Long orderId,User user,OrderRequestDto orderRequestDto) {
          Order order = findOrder(orderId);
 
-         if (!order.getUser().getUserName().equals(user.getUserName())) {
+         if (!order.getUser().getUserId().equals(user.getUserId())) {
              throw new RejectedExecutionException();
          }else {
              order.update(orderRequestDto);
