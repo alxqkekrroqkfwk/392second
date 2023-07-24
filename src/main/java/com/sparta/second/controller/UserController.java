@@ -38,22 +38,19 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public ProfileUpdateDto detailProfile (@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public UserResponseDto detailProfile (@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return userService.detailProfile(userDetails);
     }
 
     @Transactional
     @PutMapping("/profile")
     public ResponseEntity<MsgResponseDto> profileUpdateDto (@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                              @RequestBody ProfileUpdateDto profileUpdateDto,
-                                              @RequestParam(value = "image", required = false) MultipartFile image,
-                                              PasswordRequestDto requestDto) throws Exception {
+                                              @RequestBody ProfileUpdateDto profileUpdateDto
+                                              ) throws Exception {
 
         userService.updateProfile(profileUpdateDto, userDetails);
 
-        return ResponseEntity.ok().body(new MsgResponseDto("로그인 성공",HttpStatus.OK.value()));
-        // msg로 반환하기로 바꾸기!
-        // MsgResponseDto를 ProfileUpdateDto로 감싼다
+        return ResponseEntity.ok().body(new MsgResponseDto("프로필 수정 성공", HttpStatus.CREATED.value()));
     }
 
     @Transactional

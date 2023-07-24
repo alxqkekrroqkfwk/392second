@@ -2,8 +2,10 @@ package com.sparta.second.service;
 
 
 import com.sparta.second.dto.*;
+import com.sparta.second.entity.PasswordHistory;
 import com.sparta.second.entity.User;
 import com.sparta.second.jwt.JwtUtil;
+import com.sparta.second.repository.PasswordHistoryRepository;
 import com.sparta.second.repository.UserRepository;
 import com.sparta.second.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -20,7 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-
+    private final PasswordHistoryRepository passwordHistoryRepository;
 
     // 회원가입
     public void signup(SignupRequestDto requestDto) {
@@ -36,20 +40,41 @@ public class UserService {
 
         User user = new User(username, password,email, Nick, role);
         userRepository.save(user);
+
+        passwordHistoryRepository.save(new PasswordHistory(user, password));
     }
 
-    public ProfileUpdateDto detailProfile (UserDetailsImpl userDetails) {
-        ProfileUpdateDto profileUpdateDto = new ProfileUpdateDto(userDetails.getUser());
-        return profileUpdateDto;
+    public UserResponseDto detailProfile (UserDetailsImpl userDetails) {
+        UserResponseDto userResponseDto = new UserResponseDto(userDetails.getUser());
+        return userResponseDto;
     }
 
     @Transactional
     public ProfileUpdateDto updateProfile (ProfileUpdateDto profileUpdateDto, UserDetailsImpl userDetails) throws Exception {
 
-        if (!passwordEncoder.matches(profileUpdateDto.getUserPassword(), userDetails.getUser().getUserPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        System.out.println(profileUpdateDto.getUserPassword() + "               " + userDetails.getPassword());
+
+        if (!passwordEncoder.matches(profileUpdateDto.getUserPassword(), userDetails.getPassword())) {
+
+            throw new IllegalArgumentException("비밀번호 인증에 실패했습니다.");
         }
-        // 수정 페이지로 넘어가기 전 비밀번호 확인
+        // 프로필 수정 시 비밀번호를 한 번 더 입력받는 과정
+
+        List<PasswordHistory> passwordHistories = passwordHistoryRepository.findTop4ByUserOrderByCreatedAtDesc(userDetails.getUser());
+        // 최근 3번 사용한 비밀번호 조회
+
+            for (int i = 0; i <passwordHistories.size(); i++) {
+                PasswordHistory passwordHistory = passwordHistories.get(i);
+                // passwordHistories.get(i)를 통해 passwordHistories 리스트에서 i번째 인덱스에 위치한 PasswordHistory 객체를 가져옴
+                if (passwordEncoder.matches(profileUpdateDto.getChangePassword(), passwordHistory.getUserPassword()))
+                    throw new IllegalArgumentException("최근 3번 사용한 비밀번호는 사용할 수 없습니다.");
+                // passwordHistory.getUserPassword()(암호화) 된 비밀번호가 userDetails.getPassword()(사용자가 입력한 비밀번호)와 같다면 throw를 보냄
+            }
+
+        // 최근 3번 사용한 비밀번호 제한하기
+
+        profileUpdateDto.setChangePassword(passwordEncoder.encode(profileUpdateDto.getChangePassword()));
+        // 받아온 비밀번호 암호화 시켜줌
 
         User targetUser = userRepository.findById(userDetails.getUser().getUserId()).orElseThrow(() -> new Exception ());
         // targetUser는 User클래스의 객체이다
@@ -59,10 +84,13 @@ public class UserService {
 
         // DB에 있는 유저의 정보를 바꾸기 위해 User를 가져오고 userRepository 안에 id를 찾아와라
 
+        System.out.println(profileUpdateDto.getChangePassword());
+
         targetUser.updateProfile(profileUpdateDto);
 
+        passwordHistoryRepository.save(new PasswordHistory(userDetails.getUser(), profileUpdateDto.getChangePassword()));
+
         return profileUpdateDto;
-        // 수정완료  MsgResponseDto로 반환해야 함
     }
 
 

@@ -5,6 +5,7 @@ import com.sparta.second.dto.ProfileUpdateDto;
 import com.sparta.second.dto.UserRequestDto;
 import com.sparta.second.dto.UserRoleEnum;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.Order;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,7 +54,10 @@ public class User {
 //    private List<Shop> shops;
 //
     @OneToMany(mappedBy = "user", orphanRemoval = true)
-    private List<Order> orders;
+    private List<ReviewLike> reviewLikes;
+
+//    @OneToMany(mappedBy = "user", orphanRemoval = true)
+//    private List<Order> orders;
 
 
     public User(String username, String password, String email, String Nick, UserRoleEnum role) {
@@ -66,6 +70,7 @@ public class User {
 
     public void updateProfile(ProfileUpdateDto profileUpdateDto) {
         this.userEmail = profileUpdateDto.getUserEmail();
+        this.userPassword = profileUpdateDto.getChangePassword();
         this.userNick = profileUpdateDto.getUserNick();
         this.myContent = profileUpdateDto.getMyContent();
     }

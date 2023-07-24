@@ -4,12 +4,10 @@ import com.sparta.second.entity.Review;
 import com.sparta.second.entity.ReviewLike;
 import com.sparta.second.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface ReviewRepository extends JpaRepository<Review,Long> {
-    List<Review> findAllByOrderByModifiedAtDesc();
+public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
+    Optional<ReviewLike> findByUserAndReview(User user, Review review);
+    boolean existsByUserAndReview(User user, Review review);
 }

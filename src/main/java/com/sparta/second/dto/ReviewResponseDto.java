@@ -12,12 +12,14 @@ import java.time.LocalDateTime;
 public class ReviewResponseDto {
     private String content;
     private URL imageUrl;
+    private Integer likeCount;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
     public ReviewResponseDto(Review review) {
         this.content = review.getContent();
         this.imageUrl = review.getImageUrl();
+        this.likeCount = review.getReviewLikes().size();
         this.createdAt = review.getCreatedAt();
         this.modifiedAt = review.getModifiedAt();
     }
