@@ -39,6 +39,7 @@ public class ReviewController {
         ReviewListResponseDto reviewListResponseDto=reviewService.getReviews();
         return ResponseEntity.ok().body(reviewListResponseDto);
     }
+
     @Transactional
     @PutMapping("/review/{reviewId}")
     public ResponseEntity<MsgResponseDto> update(@AuthenticationPrincipal UserDetailsImpl userDetails,@PathVariable Long reviewId,@RequestBody ReviewRequestDto reviewRequestDto) {
@@ -52,10 +53,10 @@ public class ReviewController {
         return ResponseEntity.ok().body(new MsgResponseDto("리뷰 삭제 완료 !",HttpStatus.OK.value()));
     }
 
-    @PostMapping("api/review/{review_Id}/like")
-    public ResponseEntity<MsgResponseDto> createLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) {
+    @PostMapping("/review/{reviewId}/like")
+    public ResponseEntity<MsgResponseDto> createLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long reviewId) {
         try {
-            reviewService.createLike(id, userDetails.getUser());
+            reviewService.createLike(reviewId, userDetails.getUser());
         } catch (DuplicateRequestException e) {
             return ResponseEntity.badRequest().body(new MsgResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
@@ -63,8 +64,8 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(new MsgResponseDto("댓글 좋아요 성공", HttpStatus.ACCEPTED.value()));
     }
 
-    // 리뷰에 좋아요 삭제
-    @DeleteMapping("api/review/{reviewId}/like")
+
+    @DeleteMapping("/review/{reviewId}/like")
     public ResponseEntity<MsgResponseDto> deleteLike(@PathVariable Long reviewId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         try {
             reviewService.deleteLike(reviewId,userDetails.getUser());

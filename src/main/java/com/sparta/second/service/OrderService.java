@@ -38,6 +38,7 @@ public class OrderService {
         );
         user1.setMoney(user.getMoney()-order.getTotal());
         orderRepository.save(order);
+        orderMenuRepository.deleteAll();
     }
 
     public OrderResponseDto getOrder(Long orderId, User user) {

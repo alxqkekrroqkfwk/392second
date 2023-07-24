@@ -33,15 +33,13 @@ public class Order extends TimeStamped{
     @Column
     private int total;
 
-    public Order(OrderRequestDto orderRequestDto,User user) {
-        this.content = orderRequestDto.getContent();
-        this.user = user;
-    }
-
     public Order(User user, List<OrderMenu> ordermenuList, OrderRequestDto orderRequestDto) {
         this.content = orderRequestDto.getContent();
         this.user = user;
         this.ordermenuList = ordermenuList;
+        for (OrderMenu orderMenu : ordermenuList) {
+            this.total += orderMenu.getMenu().getMenuPreice();
+        }
     }
 
     public void update(OrderRequestDto orderRequestDto) {

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class ReviewResponseDto {
     private String content;
     private URL imageUrl;
-    private Integer likeCount;
+    private int likeCount;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 

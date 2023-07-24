@@ -13,10 +13,10 @@ public class ReviewLike extends TimeStamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long reviewLikeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id")
+    @JoinColumn(name="userId")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -4,6 +4,7 @@ import com.sparta.second.dto.ReviewRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.aspectj.weaver.ast.Or;
 
 import java.net.URL;
@@ -13,6 +14,7 @@ import java.util.List;
 
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 public class Review extends TimeStamped {
@@ -24,12 +26,16 @@ public class Review extends TimeStamped {
     private String content;
     @Column
     private URL ImageUrl;
+    @Column
+    private int count;
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
     @OneToOne
     @JoinColumn(name = "orderId")
     private Order order;
+    @OneToMany(mappedBy = "review", orphanRemoval = true)
+    private List<ReviewLike> reviewLikes = new ArrayList<>();
 
 
     public Review(User user ,Order order , ReviewRequestDto reviewRequestDto) {

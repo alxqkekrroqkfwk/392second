@@ -5,7 +5,9 @@ import com.sparta.second.dto.ReviewRequestDto;
 import com.sparta.second.dto.ReviewResponseDto;
 import com.sparta.second.entity.Order;
 import com.sparta.second.entity.Review;
+import com.sparta.second.entity.ReviewLike;
 import com.sparta.second.entity.User;
+import com.sparta.second.repository.ReviewLikeRepository;
 import com.sparta.second.repository.ReviewRepository;
 import com.sparta.second.security.UserDetailsImpl;
 import com.sun.jdi.request.DuplicateRequestException;
@@ -24,6 +26,7 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final OrderService orderService;
+    private final ReviewLikeRepository reviewLikeRepository;
     public void createReview(Long orderId,User user, ReviewRequestDto reviewRequestDto) {
         Order order =orderService.findOrder(orderId);
 
@@ -74,6 +77,34 @@ public class ReviewService {
         // post 삭제
         reviewRepository.delete(review);
     }
+
+    @Transactional
+    public void createLike(Long id, User user) {
+        Review review = findReview(id);
+
+        if (reviewLikeRepository.existsByUserAndReview(user, review)) {
+            throw new DuplicateRequestException("이미 좋아요 한 댓글 입니다.");
+        } else {
+            ReviewLike reviewLike = new ReviewLike(user, review);
+            reviewLikeRepository.save(reviewLike);
+            int a=review.getCount();
+            a+=1;
+            review.setCount(a);
+        }
+    }
+
+    // 리뷰에 좋아요 삭제
+    @Transactional
+    public void deleteLike(Long reviewId, User user) {
+        Review review = findReview(reviewId);
+        Optional<ReviewLike> reviewLike = reviewLikeRepository.findByUserAndReview(user, review);
+        if(reviewLike.isPresent()){
+            reviewLikeRepository.delete(reviewLike.get());
+        } else{
+            throw new IllegalArgumentException("좋아요한 댓글이 아닙니다.");
+        }
+    }
+
     private Review findReview(Long reviewId) {
         return reviewRepository.findById(reviewId).orElseThrow(() ->
                 new IllegalArgumentException("선택한 게시물이 없습니다."));

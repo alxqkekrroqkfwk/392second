@@ -12,7 +12,7 @@ import lombok.Setter;
 public class PasswordHistory extends TimeStamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long passwordHistoryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
