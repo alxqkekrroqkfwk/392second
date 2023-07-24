@@ -20,9 +20,9 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/payment")
-    public ResponseEntity<MsgResponseDto> payment(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<MsgResponseDto> payment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody OrderRequestDto orderRequestDto) {
         try {
-            orderService.payment(userDetails.getUser());
+            orderService.payment(userDetails.getUser(),orderRequestDto);
             return ResponseEntity.ok().body(new MsgResponseDto("오더 주문 완료 !",HttpStatus.OK.value()));
         }catch (RejectedExecutionException e) {
             return ResponseEntity.badRequest().body(new MsgResponseDto("사용자의 금액이 부족합니다.", HttpStatus.BAD_REQUEST.value()));
@@ -40,6 +40,7 @@ public class OrderController {
         OrderListResponseDto orderListResponseDto = orderService.getOrders();
         return ResponseEntity.ok().body(orderListResponseDto);
     }
+
     @Transactional
     @PutMapping("/order/{orderId}")
     public ResponseEntity<MsgResponseDto> update(@PathVariable Long orderId,@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody OrderRequestDto orderRequestDto) {

@@ -27,9 +27,9 @@ public class OrderService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void payment(User user) {
+    public void payment(User user,OrderRequestDto orderRequestDto) {
         List<OrderMenu> orderMenuList = orderMenuRepository.findAllBy();
-        Order order = new Order(user,orderMenuList);
+        Order order = new Order(user,orderMenuList,orderRequestDto);
         if (user.getMoney()<order.getTotal()) {
             throw new RejectedExecutionException();
         }

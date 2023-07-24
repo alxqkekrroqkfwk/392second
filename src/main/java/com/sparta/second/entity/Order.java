@@ -38,12 +38,10 @@ public class Order extends TimeStamped{
         this.user = user;
     }
 
-    public Order(User user, List<OrderMenu> ordermenuList) {
+    public Order(User user, List<OrderMenu> ordermenuList, OrderRequestDto orderRequestDto) {
+        this.content = orderRequestDto.getContent();
         this.user = user;
         this.ordermenuList = ordermenuList;
-        for (OrderMenu orderMenu: ordermenuList) {
-            this.total += orderMenu.getMenu().getMenuPreice();
-        }
     }
 
     public void update(OrderRequestDto orderRequestDto) {

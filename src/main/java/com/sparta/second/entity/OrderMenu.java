@@ -15,6 +15,7 @@ public class OrderMenu {
     private Long ordermenuId;
 
     @ManyToOne
+    @JoinColumn(name = "orderId")
     private Order order;
 
     @ManyToOne
