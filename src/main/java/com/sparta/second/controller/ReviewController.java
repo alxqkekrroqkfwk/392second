@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/api/{orderId}")
+@RequestMapping("/api")
 public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping("/review")
+    @PostMapping("/{orderId}/review")
     public ResponseEntity<MsgResponseDto> createReview(@PathVariable Long orderId,@AuthenticationPrincipal UserDetailsImpl userDetails ,@RequestBody ReviewRequestDto reviewRequestDto) {
         reviewService.createReview(orderId,userDetails.getUser(),reviewRequestDto);
         return ResponseEntity.ok().body(new MsgResponseDto("리뷰 생성 완료 !", HttpStatus.OK.value()));
     }
 
     @GetMapping("/review/{review_Id}")
-    public ResponseEntity<ReviewResponseDto> getreview(@PathVariable Long review_Id) {
-        ReviewResponseDto reviewResponseDto=reviewService.getReview(review_Id);
+    public ResponseEntity<ReviewResponseDto> getreview(@PathVariable Long reviewId) {
+        ReviewResponseDto reviewResponseDto=reviewService.getReview(reviewId);
         return ResponseEntity.ok().body(reviewResponseDto);
     }
 
